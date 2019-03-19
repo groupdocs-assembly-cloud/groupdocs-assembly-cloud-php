@@ -1,0 +1,60 @@
+{
+  "matchStats": {
+    "QuarterStats": [
+      {
+        "Quarter": 1,
+        "Team1Stats": {
+          "Pct3Pt": 36.7,
+          "PctFg": 45.3,
+          "Points": 27
+        },
+        "Team2Stats": {
+          "Pct3Pt": 35.5,
+          "PctFg": 44.0,
+          "Points": 23
+        }
+      },
+      {
+        "Quarter": 2,
+        "Team1Stats": {
+          "Pct3Pt": 33.0,
+          "PctFg": 40.5,
+          "Points": 21
+        },
+        "Team2Stats": {
+          "Pct3Pt": 34.0,
+          "PctFg": 41.7,
+          "Points": 26
+        }
+      },
+      {
+        "Quarter": 3,
+        "Team1Stats": {
+          "Pct3Pt": 39.1,
+          "PctFg": 42.0,
+          "Points": 33
+        },
+        "Team2Stats": {
+          "Pct3Pt": 25.9,
+          "PctFg": 35.9,
+          "Points": 25
+        }
+      },
+      {
+        "Quarter": 4,
+        "Team1Stats": {
+          "Pct3Pt": 35.1,
+          "PctFg": 43.5,
+          "Points": 29
+        },
+        "Team2Stats": {
+          "Pct3Pt": 36.5,
+          "PctFg": 51.0,
+          "Points": 33
+        }
+      }
+    ],
+    "Team1Name": "Cleveland Cavaliers",
+    "Team2Name": "Golden State Warriors"
+  }
+}

@@ -97,11 +97,11 @@ class Configuration
     protected $host = 'https://api.groupdocs.cloud';
 	
     /*
-     * Version of API to use, possible values are v1, v1.1, v2, v3
-     * default value is v1
+     * Version of API to use, possible values are v1.0, v1.1, v2.0, v3.0
+     * default value is v1.0
      * @var string
      */
-    protected $base_path = "v1";
+    protected $base_path = "v1.0";
 
     /*
      * User agent of the HTTP request, set to "PHP-Swagger" by default
@@ -135,7 +135,7 @@ class Configuration
      * Version of GroupDocs.Assembly Cloud API
      *
      */
-    protected $clientVersion = '19.3';
+    protected $clientVersion = '19.12';
 
     /*
      * Constructor
@@ -353,6 +353,9 @@ class Configuration
     public function setHost($host)
     {
         $this->host = $host;
+        if (substr($this->host[$length], -1) !== '/') {
+            $this->host = $this->host . '/';
+        }
         return $this;
     }
 
@@ -366,19 +369,6 @@ class Configuration
         return $this->host;
     }
 	
-    /*
-     * Sets the base_path
-     *
-     * @param string $base_path api version
-     *
-     * @return $this
-     */
-    public function setBasePath($base_path)
-    {
-        $this->base_path = $base_path;
-        return $this;
-    }
-
     /*
      * Gets the base_path
      *

@@ -1,7 +1,7 @@
 <?php
 /**
  * --------------------------------------------------------------------------------------------------------------------
- * <copyright company="GroupDocs" file="WordsApi.php">
+ * <copyright company="GroupDocs" file="AssemblyApi.php">
  *   Copyright (c) 2019 GroupDocs.Assembly for Cloud
  * </copyright>
  * <summary>
@@ -60,7 +60,7 @@ class AssemblyApi
     protected $headerSelector;
 
     /*
-     * Initialize a new instance of WordsApi
+     * Initialize a new instance of AssemblyApi
      * @param ClientInterface   $client client for calling api
      * @param Configuration   $config configuration info
      * @param HeaderSelector   $selector class for header selection
@@ -126,7 +126,7 @@ class AssemblyApi
             try {
                 $response = $this->client->send($request, $options);
             } catch (RequestException $e) {
-                throw new ApiException("[{$e->getCode()}] {$e->getMessage()}", $e->getCode(), $e->getResponse() ? $e->getResponse()->getHeaders() : null);
+                throw new ApiException("[{$e->getCode()}] {$e->getMessage()}", $e->getCode(), $e->getResponse() ? $e->getResponse()->getHeaders() : null,  $e->getResponse() ? $e->getResponse()->getBody() : null);
             }
 
             $statusCode = $response->getStatusCode();
@@ -306,17 +306,23 @@ class AssemblyApi
     
         $resourcePath = $this->_parseURL($resourcePath, $queryParams);
 
-        if (isset($request->save_options)) {
-            $formParams['saveOptions'] = $request->save_options;
-        }
         // form params
         if ($request->data !== null) {
-            $multipart = true;
+            $multipart = true; 
             $filename = ObjectSerializer::toFormValue($request->data);
             $handle = fopen($filename, "rb");
             $fsize = filesize($filename);
             $contents = fread($handle, $fsize);
             $formParams['data'] = $contents;
+        }
+        // body params
+        $_tempBody = null;
+        if (isset($request->save_options)) {
+            if (is_string($request->save_options)) {
+                $_tempBody = "\"" . $request->save_options . "\"";   
+            } else {
+                $_tempBody = $request->save_options;
+            }
         }
 
         if ($multipart) {
@@ -344,7 +350,8 @@ class AssemblyApi
                 foreach ($formParams as $formParamName => $formParamValue) {
                     $multipartContents[] = [
                         'name' => $formParamName,
-                        'contents' => $formParamValue
+                        'contents' => $formParamValue,
+                        'filename' => basename($filename)
                     ];
                 }
                 // for HTTP post (form)
@@ -378,12 +385,12 @@ class AssemblyApi
     
         $req = new Request(
             'POST',
-            $this->config->getHost() . $resourcePath,
+            $resourcePath,
             $headers,
             $httpBody
         );
         if ($this->config->getDebug()) {
-            $this->_writeRequestLog('POST', $this->config->getHost() . $resourcePath, $headers, $httpBody);
+            $this->_writeRequestLog('POST', $resourcePath, $headers, $httpBody);
         }
         
         return $req;
@@ -443,13 +450,8 @@ class AssemblyApi
      */
     private function _parseURL($url, $queryParams) 
     {
-        // parse the url
-         $UrlToSign = trim($url, "/");
-         $urlQuery = http_build_query($queryParams);
- 
-         $urlPartToSign = parse_url($UrlToSign, PHP_URL_SCHEME) . '://' . $this->config->getBasePath() .  "/" . parse_url($UrlToSign, PHP_URL_HOST) . parse_url($UrlToSign, PHP_URL_PATH) . "?" . $urlQuery;
-        
-        return $urlPartToSign;
+        $urlQuery = http_build_query($queryParams);
+        return $this->config->getHost() . $this->config->getBasePath() . $url . "?" . $urlQuery;
     }
   
     /*
@@ -457,24 +459,24 @@ class AssemblyApi
      */
     private function _requestToken() 
     {
-        $requestUrl = $this->config->getHost() . "/oauth2/token";
-        $postData = "grant_type=client_credentials" . "&client_id=" . $this->config->getAppSid() . "&client_secret=" . $this->config->getAppKey();
-        $response = $this->client->send(new Request('POST', $requestUrl, [], $postData));
+        $requestUrl = $this->config->getHost() . "connect/token";
+        $params = array(
+            "grant_type"=>'client_credentials',
+            "client_id" => $this->config->getAppSid(),
+            "client_secret" => $this->config->getAppKey()
+        );
+        $multipartContents = [];
+        foreach ($params as $paramName => $paramValue) {
+            $multipartContents[] = [
+                'name' => $paramName,
+                'contents' => $paramValue
+            ];
+        }
+        // for HTTP post (form)
+        $httpBody = new MultipartStream($multipartContents);
+        $response = $this->client->send(new Request('POST', $requestUrl, [], $httpBody));
         $result = json_decode($response->getBody()->getContents(), true);
         $this->config->setAccessToken($result["access_token"]);
-        $this->config->setRefreshToken($result["refresh_token"]);
     }
   
-    /*
-     * Refresh token. OBSOLETE WILL BE REMOVED SOON
-     */
-    private function _refreshToken() 
-    {
-        $requestUrl = $this->config->getHost() . "/oauth2/token";
-        $postData = "grant_type=refresh_token&refresh_token=" . $this->config->getRefreshToken();
-        $response = $this->client->send(new Request('POST', $requestUrl, [], $postData));
-        $result = json_decode($response->getBody()->getContents(), true);
-        $this->config->setAccessToken($result["access_token"]);
-        $this->config->setRefreshToken($result["refresh_token"]);
-    }
 }

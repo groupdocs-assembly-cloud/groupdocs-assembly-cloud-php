@@ -307,22 +307,18 @@ class AssemblyApi
         $resourcePath = $this->_parseURL($resourcePath, $queryParams);
 
         // form params
+        if ($request->save_options !== null) {
+            $multipart = true; 
+            $formParams[lcfirst('SaveOptions')] = ObjectSerializer::toFormValue($request->save_options);
+        }
+
         if ($request->data !== null) {
             $multipart = true; 
             $filename = ObjectSerializer::toFormValue($request->data);
             $handle = fopen($filename, "rb");
             $fsize = filesize($filename);
             $contents = fread($handle, $fsize);
-            $formParams['data'] = $contents;
-        }
-        // body params
-        $_tempBody = null;
-        if (isset($request->save_options)) {
-            if (is_string($request->save_options)) {
-                $_tempBody = "\"" . $request->save_options . "\"";   
-            } else {
-                $_tempBody = $request->save_options;
-            }
+            $formParams[lcfirst('Data')] = $contents;
         }
 
         if ($multipart) {
@@ -337,26 +333,19 @@ class AssemblyApi
         }
 
         // for model (json/xml)
-        if (isset($_tempBody)) {
-            // $_tempBody is the method argument, if present
-            $httpBody = $_tempBody;
-            // \stdClass has no __toString(), so we should encode it manually
-            if ($httpBody instanceof \stdClass && $headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($httpBody);
-            }
-        } elseif (count($formParams) > 0) {
+        if (count($formParams) > 0) {
             if ($multipart) {
+                $boundary = 'Somthing';
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
-                    $multipartContents[] = [
+                    array_push($multipartContents, [
                         'name' => $formParamName,
-                        'contents' => $formParamValue,
-                        'filename' => basename($filename)
-                    ];
+                        'contents' => $formParamValue
+                    ]);
                 }
                 // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
-
+                $httpBody = new MultipartStream($multipartContents, $boundary);
+                $headers['Content-Type'] = 'multipart/form-data; boundary='.$boundary;
             } elseif ($headers['Content-Type'] === 'application/json') {
                 $httpBody = \GuzzleHttp\json_encode($formParams);
 
@@ -439,7 +428,12 @@ class AssemblyApi
     private function _writeHeadersAndBody($logInfo, $headers, $body)
     {
         foreach ($headers as $name => $value) {
-            $logInfo .= $name . ': ' . $value . "\n";
+            if (is_array($value)) {
+                $logInfo .= $name . ': ' . implode($value) . "\n";
+            }
+            else {
+                $logInfo .= $name . ': ' . $value . "\n";
+            }
         }
         
         return $logInfo .= "Body: " . $body . "\n";

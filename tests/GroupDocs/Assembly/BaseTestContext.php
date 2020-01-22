@@ -32,7 +32,7 @@ use GroupDocs\Assembly\AssemblyApi;
 /**
  * Base context for test classes
  */
-class BaseTestContext extends \PHPUnit_Framework_TestCase
+class BaseTestContext extends \PHPUnit\Framework\TestCase
 {
     protected $assembly;
 

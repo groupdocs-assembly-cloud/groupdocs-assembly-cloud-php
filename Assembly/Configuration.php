@@ -353,7 +353,7 @@ class Configuration
     public function setHost($host)
     {
         $this->host = $host;
-        if (substr($this->host[$length], -1) !== '/') {
+        if (substr($this->host, -1) !== '/') {
             $this->host = $this->host . '/';
         }
         return $this;

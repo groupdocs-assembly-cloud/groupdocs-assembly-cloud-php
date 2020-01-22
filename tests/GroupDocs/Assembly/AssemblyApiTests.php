@@ -27,6 +27,23 @@
 */
 
 namespace GroupDocs\Assembly\Test;
+
+function autoload( $path ) {
+    $items = glob( $path . DIRECTORY_SEPARATOR . "*" );
+
+    foreach( $items as $item ) {
+        $pinfo = pathinfo( $item );         
+        $isPhp = array_key_exists("extension", $pinfo) && $pinfo["extension"] === "php";
+        if ( is_file( $item ) && $isPhp ) {
+            require_once $item;
+        } elseif ( is_dir( $item ) ) {
+            autoload( $item );
+        }
+    }
+}
+
+autoload( $_SERVER['DOCUMENT_ROOT'] . "Assembly" );
+
 require_once $_SERVER['DOCUMENT_ROOT'] . "tests/GroupDocs/Assembly/BaseTestContext.php";
 use GroupDocs\Assembly\ApiException;
 use GroupDocs\Assembly\Model;
@@ -46,10 +63,10 @@ class AssemblyApiTests extends BaseTestContext
      */
     public function testPostAssembleDocument()
     {
-        $baseTestDir = realpath(__DIR__ . '../../') . '/TestData/';
+        $baseTestDir = realpath(__DIR__ . '../../') . 'TestData/';
         $fileName = 'TestAllChartTypes.docx';
         $remoteName = $fileName;
-        $fullName = self::$baseRemoteFolder . "GroupDocs/Assembly/" . $remoteName;
+        $fullName = self::$baseRemoteFolder . "GroupDocs.Assembly/" . $remoteName;
         $file = $baseTestDir . $fileName;
         $putRequest = new StorageRequests\PutCreateRequest($fullName, $file);
         $this->storage->PutCreate($putRequest);
@@ -57,8 +74,8 @@ class AssemblyApiTests extends BaseTestContext
         $request = new Requests\PostAssembleDocumentRequest(
             $remoteName, 
             $baseTestDir . "Teams.json", 
-            new Model\LoadSaveOptionsData(array("save_format" => "docx")), 
-            null, 
+            new Model\LoadSaveOptionsData(array("save_format" => "pdf")), 
+            self::$baseRemoteFolder . "GroupDocs.Assembly", 
             null
         );
 

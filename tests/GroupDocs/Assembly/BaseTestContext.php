@@ -26,7 +26,6 @@
 * --------------------------------------------------------------------------------------------------------------------
 */
 namespace BaseTest;
-use Aspose\Storage\Api\StorageApi;
 use GroupDocs\Assembly\Configuration;
 use GroupDocs\Assembly\AssemblyApi;
 /**
@@ -59,8 +58,6 @@ class BaseTestContext extends \PHPUnit\Framework\TestCase
         $this->config->setAppSid($creds["AppSid"]);
         $this->config->setHost($creds["BaseUrl"]);
         $this->assembly = new AssemblyApi(null, $this->config);
-        $this->storage = new StorageApi();
-        $this->storage->getConfig()->setAppKey($creds["AppKey"])->setAppSid($creds["AppSid"])->setHost($creds["BaseUrl"]);
     }
 
     /*
@@ -71,15 +68,5 @@ class BaseTestContext extends \PHPUnit\Framework\TestCase
     public function get_api()
     {
         return $this->assembly;
-    }
-
-    /*
-     * Returns storage instance
-     * 
-     * @return StorageApi
-     */
-    public function get_storage()
-    {
-        return $this->storage;
     }
 }

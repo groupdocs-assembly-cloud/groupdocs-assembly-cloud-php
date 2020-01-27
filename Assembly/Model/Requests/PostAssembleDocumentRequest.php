@@ -39,14 +39,9 @@ class PostAssembleDocumentRequest
     public $name;
 	
     /*
-     * Report data in JSON or XML format
+     * Report Data Options. It should be JSON with SaveFormat and ReportData
      */
-    public $data;
-	
-    /*
-     * Save options in json format
-     */
-    public $save_options;
+    public $report_data;
 	
     /*
      * Folder path where template file is located(on a storage)
@@ -63,16 +58,14 @@ class PostAssembleDocumentRequest
      * Initializes a new instance of the PostAssembleDocumentRequest class.
      *  
      * @param string $name File name of template, which is located on a storage
-     * @param \SplFileObject $data Report data in JSON or XML format
-     * @param \GroupDocs\Assembly\Model\LoadSaveOptionsData $save_options Save options in json format
+     * @param \GroupDocs\Assembly\Model\ReportOptionsData $report_data Report Data Options. It should be JSON with SaveFormat and ReportData
      * @param string $folder Folder path where template file is located(on a storage)
      * @param string $dest_file_name Result name of built document
      */
-    public function __construct($name, $data, $save_options, $folder = null, $dest_file_name = null)             
+    public function __construct($name, $report_data, $folder = null, $dest_file_name = null)             
     {
         $this->name = $name;
-        $this->data = $data;
-        $this->save_options = $save_options;
+        $this->report_data = $report_data;
         $this->folder = $folder;
         $this->dest_file_name = $dest_file_name;
     }
@@ -95,36 +88,19 @@ class PostAssembleDocumentRequest
     }
 	
     /*
-     * Report data in JSON or XML format
+     * Report Data Options. It should be JSON with SaveFormat and ReportData
      */
-    public function get_data()
+    public function get_report_data()
     {
-        return $this->data;
+        return $this->report_data;
     }
 
     /*
-     * Report data in JSON or XML format
+     * Report Data Options. It should be JSON with SaveFormat and ReportData
      */
-    public function set_data($value)
+    public function set_report_data($value)
     {
-        $this->data = $value;
-        return $this;
-    }
-	
-    /*
-     * Save options in json format
-     */
-    public function get_save_options()
-    {
-        return $this->save_options;
-    }
-
-    /*
-     * Save options in json format
-     */
-    public function set_save_options($value)
-    {
-        $this->save_options = $value;
+        $this->report_data = $value;
         return $this;
     }
 	

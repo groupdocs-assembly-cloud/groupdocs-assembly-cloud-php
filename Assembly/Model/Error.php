@@ -1,7 +1,7 @@
 <?php
 /**
  * --------------------------------------------------------------------------------------------------------------------
- * <copyright company="GroupDocs" file="LoadSaveOptionsData.php">
+ * <copyright company="GroupDocs" file="Error.php">
  *   Copyright (c) 2019 GroupDocs.Assembly for Cloud
  * </copyright>
  * <summary>
@@ -26,7 +26,7 @@
  * --------------------------------------------------------------------------------------------------------------------
  */
 /*
- * LoadSaveOptionsData
+ * Error
  */
 
 namespace GroupDocs\Assembly\Model;
@@ -35,11 +35,11 @@ use \ArrayAccess;
 use \GroupDocs\Assembly\ObjectSerializer;
 
 /*
- * LoadSaveOptionsData
+ * Error
  *
- * @description Save options data which is using for specifying additional save options, like save format and etc.
+ * @description Error
  */
-class LoadSaveOptionsData implements ArrayAccess
+class Error implements ArrayAccess
 {
     const DISCRIMINATOR = null;
 
@@ -48,7 +48,7 @@ class LoadSaveOptionsData implements ArrayAccess
      *
      * @var string
      */
-    protected static $swaggerModelName = "LoadSaveOptionsData";
+    protected static $swaggerModelName = "Error";
 
     /*
      * Array of property to type mappings. Used for (de)serialization
@@ -56,7 +56,10 @@ class LoadSaveOptionsData implements ArrayAccess
      * @var string[]
      */
     protected static $swaggerTypes = [
-        'save_format' => 'string'
+        'code' => 'string',
+        'message' => 'string',
+        'description' => 'string',
+        'inner_error' => '\GroupDocs\Assembly\Model\ErrorDetails'
     ];
 
     /*
@@ -65,7 +68,10 @@ class LoadSaveOptionsData implements ArrayAccess
      * @var string[]
      */
     protected static $swaggerFormats = [
-        'save_format' => null
+        'code' => null,
+        'message' => null,
+        'description' => null,
+        'inner_error' => null
     ];
 
     /*
@@ -95,7 +101,10 @@ class LoadSaveOptionsData implements ArrayAccess
      * @var string[]
      */
     protected static $attributeMap = [
-        'save_format' => 'SaveFormat'
+        'code' => 'Code',
+        'message' => 'Message',
+        'description' => 'Description',
+        'inner_error' => 'InnerError'
     ];
 
     /*
@@ -104,7 +113,10 @@ class LoadSaveOptionsData implements ArrayAccess
      * @var string[]
      */
     protected static $setters = [
-        'save_format' => 'setSaveFormat'
+        'code' => 'setCode',
+        'message' => 'setMessage',
+        'description' => 'setDescription',
+        'inner_error' => 'setInnerError'
     ];
 
     /*
@@ -113,7 +125,10 @@ class LoadSaveOptionsData implements ArrayAccess
      * @var string[]
      */
     protected static $getters = [
-        'save_format' => 'getSaveFormat'
+        'code' => 'getCode',
+        'message' => 'getMessage',
+        'description' => 'getDescription',
+        'inner_error' => 'getInnerError'
     ];
 
     /*
@@ -176,7 +191,10 @@ class LoadSaveOptionsData implements ArrayAccess
      */
     public function __construct(array $data = null)
     {
-        $this->container['save_format'] = isset($data['save_format']) ? $data['save_format'] : null;
+        $this->container['code'] = isset($data['code']) ? $data['code'] : null;
+        $this->container['message'] = isset($data['message']) ? $data['message'] : null;
+        $this->container['description'] = isset($data['description']) ? $data['description'] : null;
+        $this->container['inner_error'] = isset($data['inner_error']) ? $data['inner_error'] : null;
     }
 
     /*
@@ -205,25 +223,97 @@ class LoadSaveOptionsData implements ArrayAccess
 
 
     /*
-     * Gets save_format
+     * Gets code
      *
      * @return string
      */
-    public function getSaveFormat()
+    public function getCode()
     {
-        return $this->container['save_format'];
+        return $this->container['code'];
     }
 
     /*
-     * Sets save_format
+     * Sets code
      *
-     * @param string $save_format Save format for assembled document
+     * @param string $code Code
      *
      * @return $this
      */
-    public function setSaveFormat($save_format)
+    public function setCode($code)
     {
-        $this->container['save_format'] = $save_format;
+        $this->container['code'] = $code;
+
+        return $this;
+    }
+
+    /*
+     * Gets message
+     *
+     * @return string
+     */
+    public function getMessage()
+    {
+        return $this->container['message'];
+    }
+
+    /*
+     * Sets message
+     *
+     * @param string $message Message
+     *
+     * @return $this
+     */
+    public function setMessage($message)
+    {
+        $this->container['message'] = $message;
+
+        return $this;
+    }
+
+    /*
+     * Gets description
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->container['description'];
+    }
+
+    /*
+     * Sets description
+     *
+     * @param string $description Description
+     *
+     * @return $this
+     */
+    public function setDescription($description)
+    {
+        $this->container['description'] = $description;
+
+        return $this;
+    }
+
+    /*
+     * Gets inner_error
+     *
+     * @return \GroupDocs\Assembly\Model\ErrorDetails
+     */
+    public function getInnerError()
+    {
+        return $this->container['inner_error'];
+    }
+
+    /*
+     * Sets inner_error
+     *
+     * @param \GroupDocs\Assembly\Model\ErrorDetails $inner_error Inner Error
+     *
+     * @return $this
+     */
+    public function setInnerError($inner_error)
+    {
+        $this->container['inner_error'] = $inner_error;
 
         return $this;
     }

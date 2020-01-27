@@ -48,7 +48,6 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "tests/GroupDocs/Assembly/BaseTestConte
 use GroupDocs\Assembly\ApiException;
 use GroupDocs\Assembly\Model;
 use GroupDocs\Assembly\Model\Requests;
-use Aspose\Storage\Model\Requests as StorageRequests;
 use BaseTest\BaseTestContext;
 use PHPUnit\Framework\Assert;
 /**
@@ -68,13 +67,17 @@ class AssemblyApiTests extends BaseTestContext
         $remoteName = $fileName;
         $fullName = self::$baseRemoteFolder . "GroupDocs.Assembly/" . $remoteName;
         $file = $baseTestDir . $fileName;
-        $putRequest = new StorageRequests\PutCreateRequest($fullName, $file);
-        $this->storage->PutCreate($putRequest);
+        $putRequest = new Requests\UploadFileRequest($file, $fullName);
+        $this->assembly->uploadFile($putRequest);
+
+        $saveData = new Model\ReportOptionsData(array(
+            "save_format" => "pdf",
+            "report_data" => file_get_contents($baseTestDir . "Teams.json")
+        ));
 
         $request = new Requests\PostAssembleDocumentRequest(
             $remoteName, 
-            $baseTestDir . "Teams.json", 
-            new Model\LoadSaveOptionsData(array("save_format" => "pdf")), 
+            $saveData, 
             self::$baseRemoteFolder . "GroupDocs.Assembly", 
             null
         );

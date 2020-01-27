@@ -3,9 +3,8 @@ parameters {
 		string(name: 'testServerUrl', defaultValue: 'https://api-qa.groupdocs.cloud', description: 'server url')		
 }
 
-def runtests(dockerImageVersion)
-{
-    dir(dockerImageVersion){
+node('words-linux') {
+    dir('test'){
         try {
             stage('checkout'){
 				checkout([$class: 'GitSCM', branches: [[name: params.branch]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'LocalBranch', localBranch: "**"]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '361885ba-9425-4230-950e-0af201d90547', url: 'https://git.auckland.dynabic.com/assembly-cloud/assembly-php-sdk.git']]])
@@ -17,7 +16,8 @@ def runtests(dockerImageVersion)
             
             stage('tests'){   
                 try {
-                    bat scripts/runTests.bat
+                    sh "docker run --rm -v ${pwd()}:/app composer/composer:latest require --dev phpunit/phpunit ^6.0"
+                    sh "docker run -v ${pwd()}:/app -w /app --rm phpunit/phpunit:6.0.6 -c phpunit.xml"
                 } finally {
                     junit 'testReports/logfile.xml'
                 }
@@ -26,9 +26,4 @@ def runtests(dockerImageVersion)
             deleteDir()
         }
     }
-}
-
-node('words-linux') {
-    runtests("latest")
-	runtests("7.1")
 }

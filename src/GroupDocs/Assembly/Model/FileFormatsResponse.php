@@ -1,8 +1,8 @@
 <?php
 /**
  * --------------------------------------------------------------------------------------------------------------------
- * <copyright company="GroupDocs" file="LoadSaveOptionsData.php">
- *   Copyright (c) 2019 GroupDocs.Assembly for Cloud
+ * <copyright company="Aspose" file="FileFormatsResponse.php">
+ *   Copyright (c) 2020 GroupDocs.Assembly for Cloud
  * </copyright>
  * <summary>
  *   Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -26,20 +26,18 @@
  * --------------------------------------------------------------------------------------------------------------------
  */
 /*
- * LoadSaveOptionsData
+ * FileFormatsResponse
  */
 
 namespace GroupDocs\Assembly\Model;
-
-use \ArrayAccess;
 use \GroupDocs\Assembly\ObjectSerializer;
 
 /*
- * LoadSaveOptionsData
+ * FileFormatsResponse
  *
- * @description Save options data which is using for specifying additional save options, like save format and etc.
+ * @description Response with file formats.
  */
-class LoadSaveOptionsData implements ArrayAccess
+class FileFormatsResponse extends AssemblyResponse 
 {
     const DISCRIMINATOR = null;
 
@@ -48,7 +46,7 @@ class LoadSaveOptionsData implements ArrayAccess
      *
      * @var string
      */
-    protected static $swaggerModelName = "LoadSaveOptionsData";
+    protected static $swaggerModelName = "FileFormatsResponse";
 
     /*
      * Array of property to type mappings. Used for (de)serialization
@@ -56,7 +54,9 @@ class LoadSaveOptionsData implements ArrayAccess
      * @var string[]
      */
     protected static $swaggerTypes = [
-        'save_format' => 'string'
+        'file_formats' => '\GroupDocs\Assembly\Model\FormatCollection',
+        'code' => 'int',
+        'status' => 'string'
     ];
 
     /*
@@ -65,7 +65,9 @@ class LoadSaveOptionsData implements ArrayAccess
      * @var string[]
      */
     protected static $swaggerFormats = [
-        'save_format' => null
+        'file_formats' => null,
+        'code' => 'int32',
+        'status' => null
     ];
 
     /*
@@ -75,7 +77,7 @@ class LoadSaveOptionsData implements ArrayAccess
      */
     public static function swaggerTypes()
     {
-        return self::$swaggerTypes;
+        return self::$swaggerTypes + parent::swaggerTypes();
     }
 
     /*
@@ -85,7 +87,7 @@ class LoadSaveOptionsData implements ArrayAccess
      */
     public static function swaggerFormats()
     {
-        return self::$swaggerFormats;
+        return self::$swaggerFormats + parent::swaggerFormats();
     }
 
     /*
@@ -95,7 +97,9 @@ class LoadSaveOptionsData implements ArrayAccess
      * @var string[]
      */
     protected static $attributeMap = [
-        'save_format' => 'SaveFormat'
+        'file_formats' => 'FileFormats',
+        'code' => 'Code',
+        'status' => 'Status'
     ];
 
     /*
@@ -104,7 +108,9 @@ class LoadSaveOptionsData implements ArrayAccess
      * @var string[]
      */
     protected static $setters = [
-        'save_format' => 'setSaveFormat'
+        'file_formats' => 'setFileFormats',
+        'code' => 'setCode',
+        'status' => 'setStatus'
     ];
 
     /*
@@ -113,7 +119,9 @@ class LoadSaveOptionsData implements ArrayAccess
      * @var string[]
      */
     protected static $getters = [
-        'save_format' => 'getSaveFormat'
+        'file_formats' => 'getFileFormats',
+        'code' => 'getCode',
+        'status' => 'getStatus'
     ];
 
     /*
@@ -124,7 +132,7 @@ class LoadSaveOptionsData implements ArrayAccess
      */
     public static function attributeMap()
     {
-        return self::$attributeMap;
+        return parent::attributeMap() + self::$attributeMap;
     }
 
     /*
@@ -134,7 +142,7 @@ class LoadSaveOptionsData implements ArrayAccess
      */
     public static function setters()
     {
-        return self::$setters;
+        return parent::setters() + self::$setters;
     }
 
     /*
@@ -144,7 +152,7 @@ class LoadSaveOptionsData implements ArrayAccess
      */
     public static function getters()
     {
-        return self::$getters;
+        return parent::getters() + self::$getters;
     }
 
     /*
@@ -161,12 +169,6 @@ class LoadSaveOptionsData implements ArrayAccess
 
     
 
-    /*
-     * Associative array for storing property values
-     *
-     * @var mixed[]
-     */
-    protected $container = [];
 
     /*
      * Constructor
@@ -176,7 +178,11 @@ class LoadSaveOptionsData implements ArrayAccess
      */
     public function __construct(array $data = null)
     {
-        $this->container['save_format'] = isset($data['save_format']) ? $data['save_format'] : null;
+        parent::__construct($data);
+
+        $this->container['file_formats'] = isset($data['file_formats']) ? $data['file_formats'] : null;
+        $this->container['code'] = isset($data['code']) ? $data['code'] : null;
+        $this->container['status'] = isset($data['status']) ? $data['status'] : null;
     }
 
     /*
@@ -186,7 +192,7 @@ class LoadSaveOptionsData implements ArrayAccess
      */
     public function listInvalidProperties()
     {
-        $invalidProperties = [];
+        $invalidProperties = parent::listInvalidProperties();
 
         return $invalidProperties;
     }
@@ -199,31 +205,82 @@ class LoadSaveOptionsData implements ArrayAccess
      */
     public function valid()
     {
+        if (!parent::valid()) {
+            return false;
+        }
 
         return true;
     }
 
 
     /*
-     * Gets save_format
+     * Gets file_formats
      *
-     * @return string
+     * @return \GroupDocs\Assembly\Model\FormatCollection
      */
-    public function getSaveFormat()
+    public function getFileFormats()
     {
-        return $this->container['save_format'];
+        return $this->container['file_formats'];
     }
 
     /*
-     * Sets save_format
+     * Sets file_formats
      *
-     * @param string $save_format Save format for assembled document
+     * @param \GroupDocs\Assembly\Model\FormatCollection $file_formats Gets or sets file formats.
      *
      * @return $this
      */
-    public function setSaveFormat($save_format)
+    public function setFileFormats($file_formats)
     {
-        $this->container['save_format'] = $save_format;
+        $this->container['file_formats'] = $file_formats;
+
+        return $this;
+    }
+
+    /*
+     * Gets code
+     *
+     * @return int
+     */
+    public function getCode()
+    {
+        return $this->container['code'];
+    }
+
+    /*
+     * Sets code
+     *
+     * @param int $code Gets response status code.
+     *
+     * @return $this
+     */
+    public function setCode($code)
+    {
+        $this->container['code'] = $code;
+
+        return $this;
+    }
+
+    /*
+     * Gets status
+     *
+     * @return string
+     */
+    public function getStatus()
+    {
+        return $this->container['status'];
+    }
+
+    /*
+     * Sets status
+     *
+     * @param string $status Gets or sets response status.
+     *
+     * @return $this
+     */
+    public function setStatus($status)
+    {
+        $this->container['status'] = $status;
 
         return $this;
     }

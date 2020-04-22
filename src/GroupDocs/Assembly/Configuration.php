@@ -1,8 +1,8 @@
 <?php
 /**
  * --------------------------------------------------------------------------------------------------------------------
- * <copyright company="GroupDocs" file="Configuration.php">
- *   Copyright (c) 2019 GroupDocs.Assembly for Cloud
+ * <copyright company="Aspose" file="Configuration.php">
+ *   Copyright (c) 2020 GroupDocs.Assembly for Cloud
  * </copyright>
  * <summary>
  *   Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -97,11 +97,11 @@ class Configuration
     protected $host = 'https://api.groupdocs.cloud';
 	
     /*
-     * Version of API to use, possible values are v1, v1.1, v2, v3
-     * default value is v1
+     * Version of API to use, possible values are v1.0
+     * default value is v1.0
      * @var string
      */
-    protected $base_path = "v1";
+    protected $base_path = "v1.0";
 
     /*
      * User agent of the HTTP request, set to "PHP-Swagger" by default
@@ -135,15 +135,25 @@ class Configuration
      * Version of GroupDocs.Assembly Cloud API
      *
      */
-    protected $clientVersion = '19.3';
+    protected $clientVersion = '20.5';
 
     /*
      * Constructor
+	 * @param string   $appSid client app sid
+     * @param string   $appKey app key
+     * @param string   $baseUrl base url for requests
      */
-    public function __construct()
+    public function __construct(string $appSid, string $appKey, string $baseUrl)
     {
         $this->tempFolderPath = sys_get_temp_dir();
         date_default_timezone_set('UTC');
+        $this->tempFolderPath = sys_get_temp_dir();
+        date_default_timezone_set('UTC');
+        if (isset($baseUrl) && trim($baseUrl) != '') {
+            $this->setHost($baseUrl);
+        }
+        $this->setAppSid($appSid);
+        $this->setAppKey($appKey);
     }
     
     /*
@@ -353,6 +363,9 @@ class Configuration
     public function setHost($host)
     {
         $this->host = $host;
+        if (substr($this->host, -1) !== '/') {
+            $this->host = $this->host . '/';
+        }
         return $this;
     }
 
@@ -366,19 +379,6 @@ class Configuration
         return $this->host;
     }
 	
-    /*
-     * Sets the base_path
-     *
-     * @param string $base_path api version
-     *
-     * @return $this
-     */
-    public function setBasePath($base_path)
-    {
-        $this->base_path = $base_path;
-        return $this;
-    }
-
     /*
      * Gets the base_path
      *
@@ -494,7 +494,7 @@ class Configuration
     public static function getDefaultConfiguration()
     {
         if (self::$_defaultConfiguration === null) {
-            self::$_defaultConfiguration = new Configuration();
+            self::$_defaultConfiguration = new Configuration('', '', '');
         }
 
         return self::$_defaultConfiguration;
@@ -522,7 +522,7 @@ class Configuration
         $report  = 'PHP SDK (GroupDocs\Assembly) Debug Report:' . PHP_EOL;
         $report .= '    OS: ' . php_uname() . PHP_EOL;
         $report .= '    PHP Version: ' . PHP_VERSION . PHP_EOL;
-        $report .= '    OpenAPI Spec Version: 19.1' . PHP_EOL;
+        $report .= '    OpenAPI Spec Version: 20.4' . PHP_EOL;
         $report .= '    Temp Folder Path: ' . self::getDefaultConfiguration()->getTempFolderPath() . PHP_EOL;
 
         return $report;

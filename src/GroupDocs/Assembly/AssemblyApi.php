@@ -1,8 +1,8 @@
 <?php
 /**
  * --------------------------------------------------------------------------------------------------------------------
- * <copyright company="GroupDocs" file="AssemblyApi.php">
- *   Copyright (c) 2019 GroupDocs.Assembly for Cloud
+ * <copyright company="Aspose" file="AssemblyApi.php">
+ *   Copyright (c) 2020 GroupDocs.Assembly for Cloud
  * </copyright>
  * <summary>
  *   Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -52,7 +52,7 @@ class AssemblyApi
      * @var Configuration configuration info
      */
     protected $config;
-  
+
     /*
      * Stores header selector
      * HeaderSelector class for header selection
@@ -60,16 +60,16 @@ class AssemblyApi
     protected $headerSelector;
 
     /*
-     * Initialize a new instance of AssemblyApi
-     * @param ClientInterface   $client client for calling api
-     * @param Configuration   $config configuration info
-     * @param HeaderSelector   $selector class for header selection
+     * Initialize a new instance of WordsApi
+     * @param string   $appSid client app sid
+     * @param string   $appKey app key
+     * @param string   $baseUrl base url for requests
      */
-    public function __construct(ClientInterface $client = null, Configuration $config = null, HeaderSelector $selector = null)
+    public function __construct(string $appSid, string $appKey, string $baseUrl)
     {
-        $this->client = $client ?: new Client();
-        $this->config = $config ?: new Configuration();
-        $this->headerSelector = $selector ?: new HeaderSelector();
+        $this->client = new Client();
+        $this->config = new Configuration($appSid, $appKey, $baseUrl);
+        $this->headerSelector = new HeaderSelector();
         $this->_requestToken();
     }
 
@@ -77,9 +77,278 @@ class AssemblyApi
      * Gets the config
      * @return Configuration
      */
-    public function getConfig() 
+    public function getConfig()
     {
         return $this->config;
+    }
+
+    /*
+     * Operation assembleDocument
+     *
+     * Builds a document using document template and XML or JSON data passed in request.
+     *
+     * @param Requests\assembleDocumentRequest $request is a request object for operation
+     *
+     * @throws \GroupDocs\Assembly\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return \SplFileObject
+     */
+    public function assembleDocument(Requests\assembleDocumentRequest $request)
+    {
+        try {
+            list($response) = $this->assembleDocumentWithHttpInfo($request);
+            return $response;
+        } catch (RepeatRequestException $e) {
+            list($response) = $this->assembleDocumentWithHttpInfo($request);
+            return $response;
+        }
+    }
+
+    /*
+     * Operation assembleDocumentWithHttpInfo
+     *
+     * Builds a document using document template and XML or JSON data passed in request.
+     *
+     * @param Requests\assembleDocumentRequest $request is a request object for operation
+     *
+     * @throws \GroupDocs\Assembly\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return array of \SplFileObject, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function assembleDocumentWithHttpInfo(Requests\assembleDocumentRequest $request)
+    {
+        $returnType = '\SplFileObject';
+        $request = $this->assembleDocumentRequest($request);
+
+        try {
+            $options = $this->_createHttpClientOption();
+            try {
+                $response = $this->client->send($request, $options);
+            } catch (RequestException $e) {
+                throw new ApiException("[{$e->getCode()}] {$e->getMessage()}", $e->getCode(), $e->getResponse() ? $e->getResponse()->getHeaders() : null, $e->getResponse() ? $e->getResponse()->getBody() : null);
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                if ($statusCode === 401) {
+                    $this->_requestToken();
+                    throw new RepeatRequestException("Request must be retried", $statusCode, $response->getHeaders(), $response->getBody());
+                }
+
+                throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
+            }
+
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            if ($this->config->getDebug()) {
+                $this->_writeResponseLog($statusCode, $response->getHeaders(), ObjectSerializer::deserialize($content, $returnType, []));
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\SplFileObject', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /*
+     * Operation assembleDocumentAsync
+     *
+     * Builds a document using document template and XML or JSON data passed in request.
+     *
+     * @param Requests\assembleDocumentRequest $request is a request object for operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function assembleDocumentAsync(Requests\assembleDocumentRequest $request)
+    {
+        return $this->assembleDocumentAsyncWithHttpInfo($request)
+            ->then(
+                function ($response) {
+                    return $response[0];
+                }
+            );
+    }
+
+    /*
+     * Operation assembleDocumentAsyncWithHttpInfo
+     *
+     * Builds a document using document template and XML or JSON data passed in request.
+     *
+     * @param Requests\assembleDocumentRequest $request is a request object for operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function assembleDocumentAsyncWithHttpInfo(Requests\assembleDocumentRequest $request)
+    {
+        $returnType = '\SplFileObject';
+        $request = $this->assembleDocumentRequest($request);
+
+        return $this->client
+            ->sendAsync($request, $this->_createHttpClientOption())
+            ->then(
+                function ($response) use ($returnType) {
+                    $responseBody = $response->getBody();
+                    if ($returnType === '\SplFileObject') {
+                        $content = $responseBody; //stream goes to serializer
+                    } else {
+                        $content = $responseBody->getContents();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    if ($this->config->getDebug()) {
+                        $this->_writeResponseLog($response->getStatusCode(), $response->getHeaders(), ObjectSerializer::deserialize($content, $returnType, []));
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                },
+                function ($exception) {
+                    $response = $exception->getResponse();
+                    $statusCode = $response->getStatusCode();
+
+                    if ($exception instanceof RepeatRequestException) {
+                        $this->_refreshToken();
+                        throw new RepeatRequestException("Request must be retried", $statusCode, $response->getHeaders(), $response->getBody());
+                    }
+
+                    throw new ApiException(
+                        sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody()
+                    );
+                }
+            );
+    }
+
+    /*
+     * Create request for operation 'assembleDocument'
+     *
+     * @param Requests\assembleDocumentRequest $request is a request object for operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function assembleDocumentRequest(Requests\assembleDocumentRequest $request)
+    {
+        // verify the required parameter 'assemble_options' is set
+        if ($request->assemble_options === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $assemble_options when calling assembleDocument');
+        }
+
+        $resourcePath = '/assembly/assemble';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = "";
+        $multipart = false;
+
+
+        $resourcePath = $this->_parseURL($resourcePath, $queryParams);
+
+        // body params
+        $_tempBody = null;
+        if (isset($request->assemble_options)) {
+            if (is_string($request->assemble_options)) {
+                $_tempBody = "\"" . $request->assemble_options . "\"";
+            } else {
+                $_tempBody = $request->assemble_options;
+            }
+        }
+
+        if ($multipart) {
+            $headers = $this->headerSelector->selectHeadersForMultipart(
+                ['application/json', 'application/xml']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json', 'application/xml'],
+                ['application/json', 'application/xml']
+            );
+        }
+
+        // for model (json/xml)
+        if (isset($_tempBody)) {
+            // $_tempBody is the method argument, if present
+            $httpBody = $_tempBody;
+            // \stdClass has no __toString(), so we should encode it manually
+            if ($httpBody instanceof \stdClass && $headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($httpBody);
+            }
+        } elseif (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue,
+                        'filename' => basename($filename)
+                    ];
+                }
+                // for HTTP post (form)
+                $httpBody = new MultipartStream($multipartContents);
+
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                // for HTTP post (form)
+                $httpBody = $formParams["data"];
+            }
+        }
+
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['x-aspose-client'] = $this->config->getUserAgent();
+        }
+
+        $defaultHeaders['x-aspose-client-version'] = $this->config->getClientVersion();
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        $req = new Request(
+            'POST',
+            $resourcePath,
+            $headers,
+            $httpBody
+        );
+        if ($this->config->getDebug()) {
+            $this->_writeRequestLog('POST', $resourcePath, $headers, $httpBody);
+        }
+
+        return $req;
     }
 
     /*
@@ -96,11 +365,10 @@ class AssemblyApi
     public function copyFile(Requests\copyFileRequest $request)
     {
         try {
-             $this->copyFileWithHttpInfo($request);
+            $this->copyFileWithHttpInfo($request);
+        } catch (RepeatRequestException $e) {
+            $this->copyFileWithHttpInfo($request);
         }
-        catch(RepeatRequestException $e) {
-             $this->copyFileWithHttpInfo($request);
-        } 
     }
 
     /*
@@ -124,7 +392,7 @@ class AssemblyApi
             try {
                 $response = $this->client->send($request, $options);
             } catch (RequestException $e) {
-                throw new ApiException("[{$e->getCode()}] {$e->getMessage()}", $e->getCode(), $e->getResponse() ? $e->getResponse()->getHeaders() : null,  $e->getResponse() ? $e->getResponse()->getBody() : null);
+                throw new ApiException("[{$e->getCode()}] {$e->getMessage()}", $e->getCode(), $e->getResponse() ? $e->getResponse()->getHeaders() : null, $e->getResponse() ? $e->getResponse()->getBody() : null);
             }
 
             $statusCode = $response->getStatusCode();
@@ -134,7 +402,7 @@ class AssemblyApi
                     $this->_requestToken();
                     throw new RepeatRequestException("Request must be retried", $statusCode, $response->getHeaders(), $response->getBody());
                 }
-          
+
                 throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
             }
 
@@ -157,7 +425,7 @@ class AssemblyApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function copyFileAsync(Requests\copyFileRequest $request) 
+    public function copyFileAsync(Requests\copyFileRequest $request)
     {
         return $this->copyFileAsyncWithHttpInfo($request)
             ->then(
@@ -177,7 +445,7 @@ class AssemblyApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function copyFileAsyncWithHttpInfo(Requests\copyFileRequest $request) 
+    public function copyFileAsyncWithHttpInfo(Requests\copyFileRequest $request)
     {
         $returnType = '';
         $request = $this->copyFileRequest($request);
@@ -188,15 +456,15 @@ class AssemblyApi
                 function ($response) use ($returnType) {
                     return [null, $response->getStatusCode(), $response->getHeaders()];
                 },
-                function ($exception) {        
+                function ($exception) {
                     $response = $exception->getResponse();
                     $statusCode = $response->getStatusCode();
-          
+
                     if ($exception instanceof RepeatRequestException) {
                         $this->_refreshToken();
                         throw new RepeatRequestException("Request must be retried", $statusCode, $response->getHeaders(), $response->getBody());
                     }
-          
+
                     throw new ApiException(
                         sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody()
                     );
@@ -229,7 +497,7 @@ class AssemblyApi
         $headerParams = [];
         $httpBody = "";
         $multipart = false;
-    
+
         // path params
         if ($request->src_path !== null) {
             $localName = lcfirst('SrcPath');
@@ -276,15 +544,15 @@ class AssemblyApi
                 $queryParams[$localName] = ObjectSerializer::toQueryValue($localValue);
             }
         }
-    
-    
+
+
         $resourcePath = $this->_parseURL($resourcePath, $queryParams);
 
         // body params
         $_tempBody = null;
 
         if ($multipart) {
-            $headers= $this->headerSelector->selectHeadersForMultipart(
+            $headers = $this->headerSelector->selectHeadersForMultipart(
                 ['application/json', 'application/xml']
             );
         } else {
@@ -332,7 +600,7 @@ class AssemblyApi
         if ($this->config->getUserAgent()) {
             $defaultHeaders['x-aspose-client'] = $this->config->getUserAgent();
         }
-    
+
         $defaultHeaders['x-aspose-client-version'] = $this->config->getClientVersion();
 
         $headers = array_merge(
@@ -340,7 +608,7 @@ class AssemblyApi
             $headerParams,
             $headers
         );
-    
+
         $req = new Request(
             'PUT',
             $resourcePath,
@@ -350,7 +618,7 @@ class AssemblyApi
         if ($this->config->getDebug()) {
             $this->_writeRequestLog('PUT', $resourcePath, $headers, $httpBody);
         }
-        
+
         return $req;
     }
 
@@ -368,11 +636,10 @@ class AssemblyApi
     public function copyFolder(Requests\copyFolderRequest $request)
     {
         try {
-             $this->copyFolderWithHttpInfo($request);
+            $this->copyFolderWithHttpInfo($request);
+        } catch (RepeatRequestException $e) {
+            $this->copyFolderWithHttpInfo($request);
         }
-        catch(RepeatRequestException $e) {
-             $this->copyFolderWithHttpInfo($request);
-        } 
     }
 
     /*
@@ -396,7 +663,7 @@ class AssemblyApi
             try {
                 $response = $this->client->send($request, $options);
             } catch (RequestException $e) {
-                throw new ApiException("[{$e->getCode()}] {$e->getMessage()}", $e->getCode(), $e->getResponse() ? $e->getResponse()->getHeaders() : null,  $e->getResponse() ? $e->getResponse()->getBody() : null);
+                throw new ApiException("[{$e->getCode()}] {$e->getMessage()}", $e->getCode(), $e->getResponse() ? $e->getResponse()->getHeaders() : null, $e->getResponse() ? $e->getResponse()->getBody() : null);
             }
 
             $statusCode = $response->getStatusCode();
@@ -406,7 +673,7 @@ class AssemblyApi
                     $this->_requestToken();
                     throw new RepeatRequestException("Request must be retried", $statusCode, $response->getHeaders(), $response->getBody());
                 }
-          
+
                 throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
             }
 
@@ -429,7 +696,7 @@ class AssemblyApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function copyFolderAsync(Requests\copyFolderRequest $request) 
+    public function copyFolderAsync(Requests\copyFolderRequest $request)
     {
         return $this->copyFolderAsyncWithHttpInfo($request)
             ->then(
@@ -449,7 +716,7 @@ class AssemblyApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function copyFolderAsyncWithHttpInfo(Requests\copyFolderRequest $request) 
+    public function copyFolderAsyncWithHttpInfo(Requests\copyFolderRequest $request)
     {
         $returnType = '';
         $request = $this->copyFolderRequest($request);
@@ -460,15 +727,15 @@ class AssemblyApi
                 function ($response) use ($returnType) {
                     return [null, $response->getStatusCode(), $response->getHeaders()];
                 },
-                function ($exception) {        
+                function ($exception) {
                     $response = $exception->getResponse();
                     $statusCode = $response->getStatusCode();
-          
+
                     if ($exception instanceof RepeatRequestException) {
                         $this->_refreshToken();
                         throw new RepeatRequestException("Request must be retried", $statusCode, $response->getHeaders(), $response->getBody());
                     }
-          
+
                     throw new ApiException(
                         sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody()
                     );
@@ -501,7 +768,7 @@ class AssemblyApi
         $headerParams = [];
         $httpBody = "";
         $multipart = false;
-    
+
         // path params
         if ($request->src_path !== null) {
             $localName = lcfirst('SrcPath');
@@ -538,15 +805,15 @@ class AssemblyApi
                 $queryParams[$localName] = ObjectSerializer::toQueryValue($localValue);
             }
         }
-    
-    
+
+
         $resourcePath = $this->_parseURL($resourcePath, $queryParams);
 
         // body params
         $_tempBody = null;
 
         if ($multipart) {
-            $headers= $this->headerSelector->selectHeadersForMultipart(
+            $headers = $this->headerSelector->selectHeadersForMultipart(
                 ['application/json', 'application/xml']
             );
         } else {
@@ -594,7 +861,7 @@ class AssemblyApi
         if ($this->config->getUserAgent()) {
             $defaultHeaders['x-aspose-client'] = $this->config->getUserAgent();
         }
-    
+
         $defaultHeaders['x-aspose-client-version'] = $this->config->getClientVersion();
 
         $headers = array_merge(
@@ -602,7 +869,7 @@ class AssemblyApi
             $headerParams,
             $headers
         );
-    
+
         $req = new Request(
             'PUT',
             $resourcePath,
@@ -612,7 +879,7 @@ class AssemblyApi
         if ($this->config->getDebug()) {
             $this->_writeRequestLog('PUT', $resourcePath, $headers, $httpBody);
         }
-        
+
         return $req;
     }
 
@@ -630,11 +897,10 @@ class AssemblyApi
     public function createFolder(Requests\createFolderRequest $request)
     {
         try {
-             $this->createFolderWithHttpInfo($request);
+            $this->createFolderWithHttpInfo($request);
+        } catch (RepeatRequestException $e) {
+            $this->createFolderWithHttpInfo($request);
         }
-        catch(RepeatRequestException $e) {
-             $this->createFolderWithHttpInfo($request);
-        } 
     }
 
     /*
@@ -658,7 +924,7 @@ class AssemblyApi
             try {
                 $response = $this->client->send($request, $options);
             } catch (RequestException $e) {
-                throw new ApiException("[{$e->getCode()}] {$e->getMessage()}", $e->getCode(), $e->getResponse() ? $e->getResponse()->getHeaders() : null,  $e->getResponse() ? $e->getResponse()->getBody() : null);
+                throw new ApiException("[{$e->getCode()}] {$e->getMessage()}", $e->getCode(), $e->getResponse() ? $e->getResponse()->getHeaders() : null, $e->getResponse() ? $e->getResponse()->getBody() : null);
             }
 
             $statusCode = $response->getStatusCode();
@@ -668,7 +934,7 @@ class AssemblyApi
                     $this->_requestToken();
                     throw new RepeatRequestException("Request must be retried", $statusCode, $response->getHeaders(), $response->getBody());
                 }
-          
+
                 throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
             }
 
@@ -691,7 +957,7 @@ class AssemblyApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function createFolderAsync(Requests\createFolderRequest $request) 
+    public function createFolderAsync(Requests\createFolderRequest $request)
     {
         return $this->createFolderAsyncWithHttpInfo($request)
             ->then(
@@ -711,7 +977,7 @@ class AssemblyApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function createFolderAsyncWithHttpInfo(Requests\createFolderRequest $request) 
+    public function createFolderAsyncWithHttpInfo(Requests\createFolderRequest $request)
     {
         $returnType = '';
         $request = $this->createFolderRequest($request);
@@ -722,15 +988,15 @@ class AssemblyApi
                 function ($response) use ($returnType) {
                     return [null, $response->getStatusCode(), $response->getHeaders()];
                 },
-                function ($exception) {        
+                function ($exception) {
                     $response = $exception->getResponse();
                     $statusCode = $response->getStatusCode();
-          
+
                     if ($exception instanceof RepeatRequestException) {
                         $this->_refreshToken();
                         throw new RepeatRequestException("Request must be retried", $statusCode, $response->getHeaders(), $response->getBody());
                     }
-          
+
                     throw new ApiException(
                         sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody()
                     );
@@ -759,7 +1025,7 @@ class AssemblyApi
         $headerParams = [];
         $httpBody = "";
         $multipart = false;
-    
+
         // path params
         if ($request->path !== null) {
             $localName = lcfirst('Path');
@@ -776,15 +1042,15 @@ class AssemblyApi
                 $queryParams[$localName] = ObjectSerializer::toQueryValue($localValue);
             }
         }
-    
-    
+
+
         $resourcePath = $this->_parseURL($resourcePath, $queryParams);
 
         // body params
         $_tempBody = null;
 
         if ($multipart) {
-            $headers= $this->headerSelector->selectHeadersForMultipart(
+            $headers = $this->headerSelector->selectHeadersForMultipart(
                 ['application/json', 'application/xml']
             );
         } else {
@@ -832,7 +1098,7 @@ class AssemblyApi
         if ($this->config->getUserAgent()) {
             $defaultHeaders['x-aspose-client'] = $this->config->getUserAgent();
         }
-    
+
         $defaultHeaders['x-aspose-client-version'] = $this->config->getClientVersion();
 
         $headers = array_merge(
@@ -840,7 +1106,7 @@ class AssemblyApi
             $headerParams,
             $headers
         );
-    
+
         $req = new Request(
             'PUT',
             $resourcePath,
@@ -850,7 +1116,7 @@ class AssemblyApi
         if ($this->config->getDebug()) {
             $this->_writeRequestLog('PUT', $resourcePath, $headers, $httpBody);
         }
-        
+
         return $req;
     }
 
@@ -868,11 +1134,10 @@ class AssemblyApi
     public function deleteFile(Requests\deleteFileRequest $request)
     {
         try {
-             $this->deleteFileWithHttpInfo($request);
+            $this->deleteFileWithHttpInfo($request);
+        } catch (RepeatRequestException $e) {
+            $this->deleteFileWithHttpInfo($request);
         }
-        catch(RepeatRequestException $e) {
-             $this->deleteFileWithHttpInfo($request);
-        } 
     }
 
     /*
@@ -896,7 +1161,7 @@ class AssemblyApi
             try {
                 $response = $this->client->send($request, $options);
             } catch (RequestException $e) {
-                throw new ApiException("[{$e->getCode()}] {$e->getMessage()}", $e->getCode(), $e->getResponse() ? $e->getResponse()->getHeaders() : null,  $e->getResponse() ? $e->getResponse()->getBody() : null);
+                throw new ApiException("[{$e->getCode()}] {$e->getMessage()}", $e->getCode(), $e->getResponse() ? $e->getResponse()->getHeaders() : null, $e->getResponse() ? $e->getResponse()->getBody() : null);
             }
 
             $statusCode = $response->getStatusCode();
@@ -906,7 +1171,7 @@ class AssemblyApi
                     $this->_requestToken();
                     throw new RepeatRequestException("Request must be retried", $statusCode, $response->getHeaders(), $response->getBody());
                 }
-          
+
                 throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
             }
 
@@ -929,7 +1194,7 @@ class AssemblyApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function deleteFileAsync(Requests\deleteFileRequest $request) 
+    public function deleteFileAsync(Requests\deleteFileRequest $request)
     {
         return $this->deleteFileAsyncWithHttpInfo($request)
             ->then(
@@ -949,7 +1214,7 @@ class AssemblyApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function deleteFileAsyncWithHttpInfo(Requests\deleteFileRequest $request) 
+    public function deleteFileAsyncWithHttpInfo(Requests\deleteFileRequest $request)
     {
         $returnType = '';
         $request = $this->deleteFileRequest($request);
@@ -960,15 +1225,15 @@ class AssemblyApi
                 function ($response) use ($returnType) {
                     return [null, $response->getStatusCode(), $response->getHeaders()];
                 },
-                function ($exception) {        
+                function ($exception) {
                     $response = $exception->getResponse();
                     $statusCode = $response->getStatusCode();
-          
+
                     if ($exception instanceof RepeatRequestException) {
                         $this->_refreshToken();
                         throw new RepeatRequestException("Request must be retried", $statusCode, $response->getHeaders(), $response->getBody());
                     }
-          
+
                     throw new ApiException(
                         sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody()
                     );
@@ -997,7 +1262,7 @@ class AssemblyApi
         $headerParams = [];
         $httpBody = "";
         $multipart = false;
-    
+
         // path params
         if ($request->path !== null) {
             $localName = lcfirst('Path');
@@ -1024,15 +1289,15 @@ class AssemblyApi
                 $queryParams[$localName] = ObjectSerializer::toQueryValue($localValue);
             }
         }
-    
-    
+
+
         $resourcePath = $this->_parseURL($resourcePath, $queryParams);
 
         // body params
         $_tempBody = null;
 
         if ($multipart) {
-            $headers= $this->headerSelector->selectHeadersForMultipart(
+            $headers = $this->headerSelector->selectHeadersForMultipart(
                 ['application/json', 'application/xml']
             );
         } else {
@@ -1080,7 +1345,7 @@ class AssemblyApi
         if ($this->config->getUserAgent()) {
             $defaultHeaders['x-aspose-client'] = $this->config->getUserAgent();
         }
-    
+
         $defaultHeaders['x-aspose-client-version'] = $this->config->getClientVersion();
 
         $headers = array_merge(
@@ -1088,7 +1353,7 @@ class AssemblyApi
             $headerParams,
             $headers
         );
-    
+
         $req = new Request(
             'DELETE',
             $resourcePath,
@@ -1098,7 +1363,7 @@ class AssemblyApi
         if ($this->config->getDebug()) {
             $this->_writeRequestLog('DELETE', $resourcePath, $headers, $httpBody);
         }
-        
+
         return $req;
     }
 
@@ -1116,11 +1381,10 @@ class AssemblyApi
     public function deleteFolder(Requests\deleteFolderRequest $request)
     {
         try {
-             $this->deleteFolderWithHttpInfo($request);
+            $this->deleteFolderWithHttpInfo($request);
+        } catch (RepeatRequestException $e) {
+            $this->deleteFolderWithHttpInfo($request);
         }
-        catch(RepeatRequestException $e) {
-             $this->deleteFolderWithHttpInfo($request);
-        } 
     }
 
     /*
@@ -1144,7 +1408,7 @@ class AssemblyApi
             try {
                 $response = $this->client->send($request, $options);
             } catch (RequestException $e) {
-                throw new ApiException("[{$e->getCode()}] {$e->getMessage()}", $e->getCode(), $e->getResponse() ? $e->getResponse()->getHeaders() : null,  $e->getResponse() ? $e->getResponse()->getBody() : null);
+                throw new ApiException("[{$e->getCode()}] {$e->getMessage()}", $e->getCode(), $e->getResponse() ? $e->getResponse()->getHeaders() : null, $e->getResponse() ? $e->getResponse()->getBody() : null);
             }
 
             $statusCode = $response->getStatusCode();
@@ -1154,7 +1418,7 @@ class AssemblyApi
                     $this->_requestToken();
                     throw new RepeatRequestException("Request must be retried", $statusCode, $response->getHeaders(), $response->getBody());
                 }
-          
+
                 throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
             }
 
@@ -1177,7 +1441,7 @@ class AssemblyApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function deleteFolderAsync(Requests\deleteFolderRequest $request) 
+    public function deleteFolderAsync(Requests\deleteFolderRequest $request)
     {
         return $this->deleteFolderAsyncWithHttpInfo($request)
             ->then(
@@ -1197,7 +1461,7 @@ class AssemblyApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function deleteFolderAsyncWithHttpInfo(Requests\deleteFolderRequest $request) 
+    public function deleteFolderAsyncWithHttpInfo(Requests\deleteFolderRequest $request)
     {
         $returnType = '';
         $request = $this->deleteFolderRequest($request);
@@ -1208,15 +1472,15 @@ class AssemblyApi
                 function ($response) use ($returnType) {
                     return [null, $response->getStatusCode(), $response->getHeaders()];
                 },
-                function ($exception) {        
+                function ($exception) {
                     $response = $exception->getResponse();
                     $statusCode = $response->getStatusCode();
-          
+
                     if ($exception instanceof RepeatRequestException) {
                         $this->_refreshToken();
                         throw new RepeatRequestException("Request must be retried", $statusCode, $response->getHeaders(), $response->getBody());
                     }
-          
+
                     throw new ApiException(
                         sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody()
                     );
@@ -1245,7 +1509,7 @@ class AssemblyApi
         $headerParams = [];
         $httpBody = "";
         $multipart = false;
-    
+
         // path params
         if ($request->path !== null) {
             $localName = lcfirst('Path');
@@ -1272,15 +1536,15 @@ class AssemblyApi
                 $queryParams[$localName] = ObjectSerializer::toQueryValue($localValue);
             }
         }
-    
-    
+
+
         $resourcePath = $this->_parseURL($resourcePath, $queryParams);
 
         // body params
         $_tempBody = null;
 
         if ($multipart) {
-            $headers= $this->headerSelector->selectHeadersForMultipart(
+            $headers = $this->headerSelector->selectHeadersForMultipart(
                 ['application/json', 'application/xml']
             );
         } else {
@@ -1328,7 +1592,7 @@ class AssemblyApi
         if ($this->config->getUserAgent()) {
             $defaultHeaders['x-aspose-client'] = $this->config->getUserAgent();
         }
-    
+
         $defaultHeaders['x-aspose-client-version'] = $this->config->getClientVersion();
 
         $headers = array_merge(
@@ -1336,7 +1600,7 @@ class AssemblyApi
             $headerParams,
             $headers
         );
-    
+
         $req = new Request(
             'DELETE',
             $resourcePath,
@@ -1346,7 +1610,7 @@ class AssemblyApi
         if ($this->config->getDebug()) {
             $this->_writeRequestLog('DELETE', $resourcePath, $headers, $httpBody);
         }
-        
+
         return $req;
     }
 
@@ -1364,13 +1628,12 @@ class AssemblyApi
     public function downloadFile(Requests\downloadFileRequest $request)
     {
         try {
-             list($response) = $this->downloadFileWithHttpInfo($request);
-             return $response;
+            list($response) = $this->downloadFileWithHttpInfo($request);
+            return $response;
+        } catch (RepeatRequestException $e) {
+            list($response) = $this->downloadFileWithHttpInfo($request);
+            return $response;
         }
-        catch(RepeatRequestException $e) {
-             list($response) = $this->downloadFileWithHttpInfo($request);
-             return $response;
-        } 
     }
 
     /*
@@ -1394,7 +1657,7 @@ class AssemblyApi
             try {
                 $response = $this->client->send($request, $options);
             } catch (RequestException $e) {
-                throw new ApiException("[{$e->getCode()}] {$e->getMessage()}", $e->getCode(), $e->getResponse() ? $e->getResponse()->getHeaders() : null,  $e->getResponse() ? $e->getResponse()->getBody() : null);
+                throw new ApiException("[{$e->getCode()}] {$e->getMessage()}", $e->getCode(), $e->getResponse() ? $e->getResponse()->getHeaders() : null, $e->getResponse() ? $e->getResponse()->getBody() : null);
             }
 
             $statusCode = $response->getStatusCode();
@@ -1404,7 +1667,7 @@ class AssemblyApi
                     $this->_requestToken();
                     throw new RepeatRequestException("Request must be retried", $statusCode, $response->getHeaders(), $response->getBody());
                 }
-          
+
                 throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
             }
 
@@ -1417,7 +1680,7 @@ class AssemblyApi
                     $content = json_decode($content);
                 }
             }
-            
+
             if ($this->config->getDebug()) {
                 $this->_writeResponseLog($statusCode, $response->getHeaders(), ObjectSerializer::deserialize($content, $returnType, []));
             }
@@ -1430,10 +1693,10 @@ class AssemblyApi
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
-            case 200:
+                case 200:
                     $data = ObjectSerializer::deserialize($e->getResponseBody(), '\SplFileObject', $e->getResponseHeaders());
                     $e->setResponseObject($data);
-                break;
+                    break;
             }
             throw $e;
         }
@@ -1449,7 +1712,7 @@ class AssemblyApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function downloadFileAsync(Requests\downloadFileRequest $request) 
+    public function downloadFileAsync(Requests\downloadFileRequest $request)
     {
         return $this->downloadFileAsyncWithHttpInfo($request)
             ->then(
@@ -1469,7 +1732,7 @@ class AssemblyApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function downloadFileAsyncWithHttpInfo(Requests\downloadFileRequest $request) 
+    public function downloadFileAsyncWithHttpInfo(Requests\downloadFileRequest $request)
     {
         $returnType = '\SplFileObject';
         $request = $this->downloadFileRequest($request);
@@ -1487,7 +1750,7 @@ class AssemblyApi
                             $content = json_decode($content);
                         }
                     }
-                    
+
                     if ($this->config->getDebug()) {
                         $this->_writeResponseLog($response->getStatusCode(), $response->getHeaders(), ObjectSerializer::deserialize($content, $returnType, []));
                     }
@@ -1498,15 +1761,15 @@ class AssemblyApi
                         $response->getHeaders()
                     ];
                 },
-                function ($exception) {        
+                function ($exception) {
                     $response = $exception->getResponse();
                     $statusCode = $response->getStatusCode();
-          
+
                     if ($exception instanceof RepeatRequestException) {
                         $this->_refreshToken();
                         throw new RepeatRequestException("Request must be retried", $statusCode, $response->getHeaders(), $response->getBody());
                     }
-          
+
                     throw new ApiException(
                         sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody()
                     );
@@ -1535,7 +1798,7 @@ class AssemblyApi
         $headerParams = [];
         $httpBody = "";
         $multipart = false;
-    
+
         // path params
         if ($request->path !== null) {
             $localName = lcfirst('Path');
@@ -1562,15 +1825,15 @@ class AssemblyApi
                 $queryParams[$localName] = ObjectSerializer::toQueryValue($localValue);
             }
         }
-    
-    
+
+
         $resourcePath = $this->_parseURL($resourcePath, $queryParams);
 
         // body params
         $_tempBody = null;
 
         if ($multipart) {
-            $headers= $this->headerSelector->selectHeadersForMultipart(
+            $headers = $this->headerSelector->selectHeadersForMultipart(
                 ['application/json', 'application/xml']
             );
         } else {
@@ -1618,7 +1881,7 @@ class AssemblyApi
         if ($this->config->getUserAgent()) {
             $defaultHeaders['x-aspose-client'] = $this->config->getUserAgent();
         }
-    
+
         $defaultHeaders['x-aspose-client-version'] = $this->config->getClientVersion();
 
         $headers = array_merge(
@@ -1626,7 +1889,7 @@ class AssemblyApi
             $headerParams,
             $headers
         );
-    
+
         $req = new Request(
             'GET',
             $resourcePath,
@@ -1636,7 +1899,7 @@ class AssemblyApi
         if ($this->config->getDebug()) {
             $this->_writeRequestLog('GET', $resourcePath, $headers, $httpBody);
         }
-        
+
         return $req;
     }
 
@@ -1654,13 +1917,12 @@ class AssemblyApi
     public function getFilesList(Requests\getFilesListRequest $request)
     {
         try {
-             list($response) = $this->getFilesListWithHttpInfo($request);
-             return $response;
+            list($response) = $this->getFilesListWithHttpInfo($request);
+            return $response;
+        } catch (RepeatRequestException $e) {
+            list($response) = $this->getFilesListWithHttpInfo($request);
+            return $response;
         }
-        catch(RepeatRequestException $e) {
-             list($response) = $this->getFilesListWithHttpInfo($request);
-             return $response;
-        } 
     }
 
     /*
@@ -1684,7 +1946,7 @@ class AssemblyApi
             try {
                 $response = $this->client->send($request, $options);
             } catch (RequestException $e) {
-                throw new ApiException("[{$e->getCode()}] {$e->getMessage()}", $e->getCode(), $e->getResponse() ? $e->getResponse()->getHeaders() : null,  $e->getResponse() ? $e->getResponse()->getBody() : null);
+                throw new ApiException("[{$e->getCode()}] {$e->getMessage()}", $e->getCode(), $e->getResponse() ? $e->getResponse()->getHeaders() : null, $e->getResponse() ? $e->getResponse()->getBody() : null);
             }
 
             $statusCode = $response->getStatusCode();
@@ -1694,7 +1956,7 @@ class AssemblyApi
                     $this->_requestToken();
                     throw new RepeatRequestException("Request must be retried", $statusCode, $response->getHeaders(), $response->getBody());
                 }
-          
+
                 throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
             }
 
@@ -1707,7 +1969,7 @@ class AssemblyApi
                     $content = json_decode($content);
                 }
             }
-            
+
             if ($this->config->getDebug()) {
                 $this->_writeResponseLog($statusCode, $response->getHeaders(), ObjectSerializer::deserialize($content, $returnType, []));
             }
@@ -1720,10 +1982,10 @@ class AssemblyApi
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
-            case 200:
+                case 200:
                     $data = ObjectSerializer::deserialize($e->getResponseBody(), '\GroupDocs\Assembly\Model\FilesList', $e->getResponseHeaders());
                     $e->setResponseObject($data);
-                break;
+                    break;
             }
             throw $e;
         }
@@ -1739,7 +2001,7 @@ class AssemblyApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function getFilesListAsync(Requests\getFilesListRequest $request) 
+    public function getFilesListAsync(Requests\getFilesListRequest $request)
     {
         return $this->getFilesListAsyncWithHttpInfo($request)
             ->then(
@@ -1759,7 +2021,7 @@ class AssemblyApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function getFilesListAsyncWithHttpInfo(Requests\getFilesListRequest $request) 
+    public function getFilesListAsyncWithHttpInfo(Requests\getFilesListRequest $request)
     {
         $returnType = '\GroupDocs\Assembly\Model\FilesList';
         $request = $this->getFilesListRequest($request);
@@ -1777,7 +2039,7 @@ class AssemblyApi
                             $content = json_decode($content);
                         }
                     }
-                    
+
                     if ($this->config->getDebug()) {
                         $this->_writeResponseLog($response->getStatusCode(), $response->getHeaders(), ObjectSerializer::deserialize($content, $returnType, []));
                     }
@@ -1788,15 +2050,15 @@ class AssemblyApi
                         $response->getHeaders()
                     ];
                 },
-                function ($exception) {        
+                function ($exception) {
                     $response = $exception->getResponse();
                     $statusCode = $response->getStatusCode();
-          
+
                     if ($exception instanceof RepeatRequestException) {
                         $this->_refreshToken();
                         throw new RepeatRequestException("Request must be retried", $statusCode, $response->getHeaders(), $response->getBody());
                     }
-          
+
                     throw new ApiException(
                         sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody()
                     );
@@ -1825,7 +2087,7 @@ class AssemblyApi
         $headerParams = [];
         $httpBody = "";
         $multipart = false;
-    
+
         // path params
         if ($request->path !== null) {
             $localName = lcfirst('Path');
@@ -1842,15 +2104,15 @@ class AssemblyApi
                 $queryParams[$localName] = ObjectSerializer::toQueryValue($localValue);
             }
         }
-    
-    
+
+
         $resourcePath = $this->_parseURL($resourcePath, $queryParams);
 
         // body params
         $_tempBody = null;
 
         if ($multipart) {
-            $headers= $this->headerSelector->selectHeadersForMultipart(
+            $headers = $this->headerSelector->selectHeadersForMultipart(
                 ['application/json', 'application/xml']
             );
         } else {
@@ -1898,7 +2160,7 @@ class AssemblyApi
         if ($this->config->getUserAgent()) {
             $defaultHeaders['x-aspose-client'] = $this->config->getUserAgent();
         }
-    
+
         $defaultHeaders['x-aspose-client-version'] = $this->config->getClientVersion();
 
         $headers = array_merge(
@@ -1906,7 +2168,7 @@ class AssemblyApi
             $headerParams,
             $headers
         );
-    
+
         $req = new Request(
             'GET',
             $resourcePath,
@@ -1916,7 +2178,7 @@ class AssemblyApi
         if ($this->config->getDebug()) {
             $this->_writeRequestLog('GET', $resourcePath, $headers, $httpBody);
         }
-        
+
         return $req;
     }
 
@@ -1929,18 +2191,17 @@ class AssemblyApi
      *
      * @throws \GroupDocs\Assembly\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return \GroupDocs\Assembly\Model\FormatCollection
+     * @return \GroupDocs\Assembly\Model\FileFormatsResponse
      */
     public function getSupportedFileFormats(Requests\getSupportedFileFormatsRequest $request)
     {
         try {
-             list($response) = $this->getSupportedFileFormatsWithHttpInfo($request);
-             return $response;
+            list($response) = $this->getSupportedFileFormatsWithHttpInfo($request);
+            return $response;
+        } catch (RepeatRequestException $e) {
+            list($response) = $this->getSupportedFileFormatsWithHttpInfo($request);
+            return $response;
         }
-        catch(RepeatRequestException $e) {
-             list($response) = $this->getSupportedFileFormatsWithHttpInfo($request);
-             return $response;
-        } 
     }
 
     /*
@@ -1952,11 +2213,11 @@ class AssemblyApi
      *
      * @throws \GroupDocs\Assembly\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return array of \GroupDocs\Assembly\Model\FormatCollection, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \GroupDocs\Assembly\Model\FileFormatsResponse, HTTP status code, HTTP response headers (array of strings)
      */
     public function getSupportedFileFormatsWithHttpInfo(Requests\getSupportedFileFormatsRequest $request)
     {
-        $returnType = '\GroupDocs\Assembly\Model\FormatCollection';
+        $returnType = '\GroupDocs\Assembly\Model\FileFormatsResponse';
         $request = $this->getSupportedFileFormatsRequest($request);
 
         try {
@@ -1964,7 +2225,7 @@ class AssemblyApi
             try {
                 $response = $this->client->send($request, $options);
             } catch (RequestException $e) {
-                throw new ApiException("[{$e->getCode()}] {$e->getMessage()}", $e->getCode(), $e->getResponse() ? $e->getResponse()->getHeaders() : null,  $e->getResponse() ? $e->getResponse()->getBody() : null);
+                throw new ApiException("[{$e->getCode()}] {$e->getMessage()}", $e->getCode(), $e->getResponse() ? $e->getResponse()->getHeaders() : null, $e->getResponse() ? $e->getResponse()->getBody() : null);
             }
 
             $statusCode = $response->getStatusCode();
@@ -1974,7 +2235,7 @@ class AssemblyApi
                     $this->_requestToken();
                     throw new RepeatRequestException("Request must be retried", $statusCode, $response->getHeaders(), $response->getBody());
                 }
-          
+
                 throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
             }
 
@@ -1987,7 +2248,7 @@ class AssemblyApi
                     $content = json_decode($content);
                 }
             }
-            
+
             if ($this->config->getDebug()) {
                 $this->_writeResponseLog($statusCode, $response->getHeaders(), ObjectSerializer::deserialize($content, $returnType, []));
             }
@@ -2000,10 +2261,10 @@ class AssemblyApi
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
-            case 200:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\GroupDocs\Assembly\Model\FormatCollection', $e->getResponseHeaders());
+                case 200:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\GroupDocs\Assembly\Model\FileFormatsResponse', $e->getResponseHeaders());
                     $e->setResponseObject($data);
-                break;
+                    break;
             }
             throw $e;
         }
@@ -2019,7 +2280,7 @@ class AssemblyApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function getSupportedFileFormatsAsync(Requests\getSupportedFileFormatsRequest $request) 
+    public function getSupportedFileFormatsAsync(Requests\getSupportedFileFormatsRequest $request)
     {
         return $this->getSupportedFileFormatsAsyncWithHttpInfo($request)
             ->then(
@@ -2039,9 +2300,9 @@ class AssemblyApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function getSupportedFileFormatsAsyncWithHttpInfo(Requests\getSupportedFileFormatsRequest $request) 
+    public function getSupportedFileFormatsAsyncWithHttpInfo(Requests\getSupportedFileFormatsRequest $request)
     {
-        $returnType = '\GroupDocs\Assembly\Model\FormatCollection';
+        $returnType = '\GroupDocs\Assembly\Model\FileFormatsResponse';
         $request = $this->getSupportedFileFormatsRequest($request);
 
         return $this->client
@@ -2057,7 +2318,7 @@ class AssemblyApi
                             $content = json_decode($content);
                         }
                     }
-                    
+
                     if ($this->config->getDebug()) {
                         $this->_writeResponseLog($response->getStatusCode(), $response->getHeaders(), ObjectSerializer::deserialize($content, $returnType, []));
                     }
@@ -2068,15 +2329,15 @@ class AssemblyApi
                         $response->getHeaders()
                     ];
                 },
-                function ($exception) {        
+                function ($exception) {
                     $response = $exception->getResponse();
                     $statusCode = $response->getStatusCode();
-          
+
                     if ($exception instanceof RepeatRequestException) {
                         $this->_refreshToken();
                         throw new RepeatRequestException("Request must be retried", $statusCode, $response->getHeaders(), $response->getBody());
                     }
-          
+
                     throw new ApiException(
                         sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody()
                     );
@@ -2101,17 +2362,15 @@ class AssemblyApi
         $headerParams = [];
         $httpBody = "";
         $multipart = false;
-    
 
-    
-    
+
         $resourcePath = $this->_parseURL($resourcePath, $queryParams);
 
         // body params
         $_tempBody = null;
 
         if ($multipart) {
-            $headers= $this->headerSelector->selectHeadersForMultipart(
+            $headers = $this->headerSelector->selectHeadersForMultipart(
                 ['application/json', 'application/xml']
             );
         } else {
@@ -2159,7 +2418,7 @@ class AssemblyApi
         if ($this->config->getUserAgent()) {
             $defaultHeaders['x-aspose-client'] = $this->config->getUserAgent();
         }
-    
+
         $defaultHeaders['x-aspose-client-version'] = $this->config->getClientVersion();
 
         $headers = array_merge(
@@ -2167,7 +2426,7 @@ class AssemblyApi
             $headerParams,
             $headers
         );
-    
+
         $req = new Request(
             'GET',
             $resourcePath,
@@ -2177,7 +2436,7 @@ class AssemblyApi
         if ($this->config->getDebug()) {
             $this->_writeRequestLog('GET', $resourcePath, $headers, $httpBody);
         }
-        
+
         return $req;
     }
 
@@ -2195,11 +2454,10 @@ class AssemblyApi
     public function moveFile(Requests\moveFileRequest $request)
     {
         try {
-             $this->moveFileWithHttpInfo($request);
+            $this->moveFileWithHttpInfo($request);
+        } catch (RepeatRequestException $e) {
+            $this->moveFileWithHttpInfo($request);
         }
-        catch(RepeatRequestException $e) {
-             $this->moveFileWithHttpInfo($request);
-        } 
     }
 
     /*
@@ -2223,7 +2481,7 @@ class AssemblyApi
             try {
                 $response = $this->client->send($request, $options);
             } catch (RequestException $e) {
-                throw new ApiException("[{$e->getCode()}] {$e->getMessage()}", $e->getCode(), $e->getResponse() ? $e->getResponse()->getHeaders() : null,  $e->getResponse() ? $e->getResponse()->getBody() : null);
+                throw new ApiException("[{$e->getCode()}] {$e->getMessage()}", $e->getCode(), $e->getResponse() ? $e->getResponse()->getHeaders() : null, $e->getResponse() ? $e->getResponse()->getBody() : null);
             }
 
             $statusCode = $response->getStatusCode();
@@ -2233,7 +2491,7 @@ class AssemblyApi
                     $this->_requestToken();
                     throw new RepeatRequestException("Request must be retried", $statusCode, $response->getHeaders(), $response->getBody());
                 }
-          
+
                 throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
             }
 
@@ -2256,7 +2514,7 @@ class AssemblyApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function moveFileAsync(Requests\moveFileRequest $request) 
+    public function moveFileAsync(Requests\moveFileRequest $request)
     {
         return $this->moveFileAsyncWithHttpInfo($request)
             ->then(
@@ -2276,7 +2534,7 @@ class AssemblyApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function moveFileAsyncWithHttpInfo(Requests\moveFileRequest $request) 
+    public function moveFileAsyncWithHttpInfo(Requests\moveFileRequest $request)
     {
         $returnType = '';
         $request = $this->moveFileRequest($request);
@@ -2287,15 +2545,15 @@ class AssemblyApi
                 function ($response) use ($returnType) {
                     return [null, $response->getStatusCode(), $response->getHeaders()];
                 },
-                function ($exception) {        
+                function ($exception) {
                     $response = $exception->getResponse();
                     $statusCode = $response->getStatusCode();
-          
+
                     if ($exception instanceof RepeatRequestException) {
                         $this->_refreshToken();
                         throw new RepeatRequestException("Request must be retried", $statusCode, $response->getHeaders(), $response->getBody());
                     }
-          
+
                     throw new ApiException(
                         sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody()
                     );
@@ -2328,7 +2586,7 @@ class AssemblyApi
         $headerParams = [];
         $httpBody = "";
         $multipart = false;
-    
+
         // path params
         if ($request->src_path !== null) {
             $localName = lcfirst('SrcPath');
@@ -2375,15 +2633,15 @@ class AssemblyApi
                 $queryParams[$localName] = ObjectSerializer::toQueryValue($localValue);
             }
         }
-    
-    
+
+
         $resourcePath = $this->_parseURL($resourcePath, $queryParams);
 
         // body params
         $_tempBody = null;
 
         if ($multipart) {
-            $headers= $this->headerSelector->selectHeadersForMultipart(
+            $headers = $this->headerSelector->selectHeadersForMultipart(
                 ['application/json', 'application/xml']
             );
         } else {
@@ -2431,7 +2689,7 @@ class AssemblyApi
         if ($this->config->getUserAgent()) {
             $defaultHeaders['x-aspose-client'] = $this->config->getUserAgent();
         }
-    
+
         $defaultHeaders['x-aspose-client-version'] = $this->config->getClientVersion();
 
         $headers = array_merge(
@@ -2439,7 +2697,7 @@ class AssemblyApi
             $headerParams,
             $headers
         );
-    
+
         $req = new Request(
             'PUT',
             $resourcePath,
@@ -2449,7 +2707,7 @@ class AssemblyApi
         if ($this->config->getDebug()) {
             $this->_writeRequestLog('PUT', $resourcePath, $headers, $httpBody);
         }
-        
+
         return $req;
     }
 
@@ -2467,11 +2725,10 @@ class AssemblyApi
     public function moveFolder(Requests\moveFolderRequest $request)
     {
         try {
-             $this->moveFolderWithHttpInfo($request);
+            $this->moveFolderWithHttpInfo($request);
+        } catch (RepeatRequestException $e) {
+            $this->moveFolderWithHttpInfo($request);
         }
-        catch(RepeatRequestException $e) {
-             $this->moveFolderWithHttpInfo($request);
-        } 
     }
 
     /*
@@ -2495,7 +2752,7 @@ class AssemblyApi
             try {
                 $response = $this->client->send($request, $options);
             } catch (RequestException $e) {
-                throw new ApiException("[{$e->getCode()}] {$e->getMessage()}", $e->getCode(), $e->getResponse() ? $e->getResponse()->getHeaders() : null,  $e->getResponse() ? $e->getResponse()->getBody() : null);
+                throw new ApiException("[{$e->getCode()}] {$e->getMessage()}", $e->getCode(), $e->getResponse() ? $e->getResponse()->getHeaders() : null, $e->getResponse() ? $e->getResponse()->getBody() : null);
             }
 
             $statusCode = $response->getStatusCode();
@@ -2505,7 +2762,7 @@ class AssemblyApi
                     $this->_requestToken();
                     throw new RepeatRequestException("Request must be retried", $statusCode, $response->getHeaders(), $response->getBody());
                 }
-          
+
                 throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
             }
 
@@ -2528,7 +2785,7 @@ class AssemblyApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function moveFolderAsync(Requests\moveFolderRequest $request) 
+    public function moveFolderAsync(Requests\moveFolderRequest $request)
     {
         return $this->moveFolderAsyncWithHttpInfo($request)
             ->then(
@@ -2548,7 +2805,7 @@ class AssemblyApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function moveFolderAsyncWithHttpInfo(Requests\moveFolderRequest $request) 
+    public function moveFolderAsyncWithHttpInfo(Requests\moveFolderRequest $request)
     {
         $returnType = '';
         $request = $this->moveFolderRequest($request);
@@ -2559,15 +2816,15 @@ class AssemblyApi
                 function ($response) use ($returnType) {
                     return [null, $response->getStatusCode(), $response->getHeaders()];
                 },
-                function ($exception) {        
+                function ($exception) {
                     $response = $exception->getResponse();
                     $statusCode = $response->getStatusCode();
-          
+
                     if ($exception instanceof RepeatRequestException) {
                         $this->_refreshToken();
                         throw new RepeatRequestException("Request must be retried", $statusCode, $response->getHeaders(), $response->getBody());
                     }
-          
+
                     throw new ApiException(
                         sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody()
                     );
@@ -2600,7 +2857,7 @@ class AssemblyApi
         $headerParams = [];
         $httpBody = "";
         $multipart = false;
-    
+
         // path params
         if ($request->src_path !== null) {
             $localName = lcfirst('SrcPath');
@@ -2637,15 +2894,15 @@ class AssemblyApi
                 $queryParams[$localName] = ObjectSerializer::toQueryValue($localValue);
             }
         }
-    
-    
+
+
         $resourcePath = $this->_parseURL($resourcePath, $queryParams);
 
         // body params
         $_tempBody = null;
 
         if ($multipart) {
-            $headers= $this->headerSelector->selectHeadersForMultipart(
+            $headers = $this->headerSelector->selectHeadersForMultipart(
                 ['application/json', 'application/xml']
             );
         } else {
@@ -2693,7 +2950,7 @@ class AssemblyApi
         if ($this->config->getUserAgent()) {
             $defaultHeaders['x-aspose-client'] = $this->config->getUserAgent();
         }
-    
+
         $defaultHeaders['x-aspose-client-version'] = $this->config->getClientVersion();
 
         $headers = array_merge(
@@ -2701,7 +2958,7 @@ class AssemblyApi
             $headerParams,
             $headers
         );
-    
+
         $req = new Request(
             'PUT',
             $resourcePath,
@@ -2711,308 +2968,7 @@ class AssemblyApi
         if ($this->config->getDebug()) {
             $this->_writeRequestLog('PUT', $resourcePath, $headers, $httpBody);
         }
-        
-        return $req;
-    }
 
-    /*
-     * Operation postAssembleDocument
-     *
-     * Builds a document using document template and XML or JSON data passed in request
-     *
-     * @param Requests\postAssembleDocumentRequest $request is a request object for operation
-     *
-     * @throws \GroupDocs\Assembly\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
-     * @return \SplFileObject
-     */
-    public function postAssembleDocument(Requests\postAssembleDocumentRequest $request)
-    {
-        try {
-             list($response) = $this->postAssembleDocumentWithHttpInfo($request);
-             return $response;
-        }
-        catch(RepeatRequestException $e) {
-             list($response) = $this->postAssembleDocumentWithHttpInfo($request);
-             return $response;
-        } 
-    }
-
-    /*
-     * Operation postAssembleDocumentWithHttpInfo
-     *
-     * Builds a document using document template and XML or JSON data passed in request
-     *
-     * @param Requests\postAssembleDocumentRequest $request is a request object for operation
-     *
-     * @throws \GroupDocs\Assembly\ApiException on non-2xx response
-     * @throws \InvalidArgumentException
-     * @return array of \SplFileObject, HTTP status code, HTTP response headers (array of strings)
-     */
-    public function postAssembleDocumentWithHttpInfo(Requests\postAssembleDocumentRequest $request)
-    {
-        $returnType = '\SplFileObject';
-        $request = $this->postAssembleDocumentRequest($request);
-
-        try {
-            $options = $this->_createHttpClientOption();
-            try {
-                $response = $this->client->send($request, $options);
-            } catch (RequestException $e) {
-                throw new ApiException("[{$e->getCode()}] {$e->getMessage()}", $e->getCode(), $e->getResponse() ? $e->getResponse()->getHeaders() : null,  $e->getResponse() ? $e->getResponse()->getBody() : null);
-            }
-
-            $statusCode = $response->getStatusCode();
-
-            if ($statusCode < 200 || $statusCode > 299) {
-                if ($statusCode === 401) {
-                    $this->_requestToken();
-                    throw new RepeatRequestException("Request must be retried", $statusCode, $response->getHeaders(), $response->getBody());
-                }
-          
-                throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
-            }
-
-            $responseBody = $response->getBody();
-            if ($returnType === '\SplFileObject') {
-                $content = $responseBody; //stream goes to serializer
-            } else {
-                $content = $responseBody->getContents();
-                if ($returnType !== 'string') {
-                    $content = json_decode($content);
-                }
-            }
-            
-            if ($this->config->getDebug()) {
-                $this->_writeResponseLog($statusCode, $response->getHeaders(), ObjectSerializer::deserialize($content, $returnType, []));
-            }
-
-            return [
-                ObjectSerializer::deserialize($content, $returnType, []),
-                $response->getStatusCode(),
-                $response->getHeaders()
-            ];
-
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-            case 200:
-                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\SplFileObject', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                break;
-            }
-            throw $e;
-        }
-    }
-
-    /*
-     * Operation postAssembleDocumentAsync
-     *
-     * Builds a document using document template and XML or JSON data passed in request
-     *
-     * @param Requests\postAssembleDocumentRequest $request is a request object for operation
-     *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
-     */
-    public function postAssembleDocumentAsync(Requests\postAssembleDocumentRequest $request) 
-    {
-        return $this->postAssembleDocumentAsyncWithHttpInfo($request)
-            ->then(
-                function ($response) {
-                    return $response[0];
-                }
-            );
-    }
-
-    /*
-     * Operation postAssembleDocumentAsyncWithHttpInfo
-     *
-     * Builds a document using document template and XML or JSON data passed in request
-     *
-     * @param Requests\postAssembleDocumentRequest $request is a request object for operation
-     *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
-     */
-    public function postAssembleDocumentAsyncWithHttpInfo(Requests\postAssembleDocumentRequest $request) 
-    {
-        $returnType = '\SplFileObject';
-        $request = $this->postAssembleDocumentRequest($request);
-
-        return $this->client
-            ->sendAsync($request, $this->_createHttpClientOption())
-            ->then(
-                function ($response) use ($returnType) {
-                    $responseBody = $response->getBody();
-                    if ($returnType === '\SplFileObject') {
-                        $content = $responseBody; //stream goes to serializer
-                    } else {
-                        $content = $responseBody->getContents();
-                        if ($returnType !== 'string') {
-                            $content = json_decode($content);
-                        }
-                    }
-                    
-                    if ($this->config->getDebug()) {
-                        $this->_writeResponseLog($response->getStatusCode(), $response->getHeaders(), ObjectSerializer::deserialize($content, $returnType, []));
-                    }
-
-                    return [
-                        ObjectSerializer::deserialize($content, $returnType, []),
-                        $response->getStatusCode(),
-                        $response->getHeaders()
-                    ];
-                },
-                function ($exception) {        
-                    $response = $exception->getResponse();
-                    $statusCode = $response->getStatusCode();
-          
-                    if ($exception instanceof RepeatRequestException) {
-                        $this->_refreshToken();
-                        throw new RepeatRequestException("Request must be retried", $statusCode, $response->getHeaders(), $response->getBody());
-                    }
-          
-                    throw new ApiException(
-                        sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody()
-                    );
-                }
-            );
-    }
-
-    /*
-     * Create request for operation 'postAssembleDocument'
-     *
-     * @param Requests\postAssembleDocumentRequest $request is a request object for operation
-     *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
-     */
-    protected function postAssembleDocumentRequest(Requests\postAssembleDocumentRequest $request)
-    {
-        // verify the required parameter 'name' is set
-        if ($request->name === null) {
-            throw new \InvalidArgumentException('Missing the required parameter $name when calling postAssembleDocument');
-        }
-        // verify the required parameter 'report_data' is set
-        if ($request->report_data === null) {
-            throw new \InvalidArgumentException('Missing the required parameter $report_data when calling postAssembleDocument');
-        }
-
-        $resourcePath = '/assembly/{name}/build';
-        $formParams = [];
-        $queryParams = [];
-        $headerParams = [];
-        $httpBody = "";
-        $multipart = false;
-    
-        // path params
-        if ($request->name !== null) {
-            $localName = lcfirst('Name');
-            $resourcePath = str_replace('{' . $localName . '}', ObjectSerializer::toPathValue($request->name), $resourcePath);
-        }
-
-        // query params
-        if ($request->folder !== null) {
-            $localName = lcfirst('Folder');
-            $localValue = is_bool($request->folder) ? ($request->folder ? 'true' : 'false') : $request->folder;
-            if (strpos($resourcePath, '{' . $localName . '}') !== false) {
-                $resourcePath = str_replace('{' . $localName . '}', ObjectSerializer::toPathValue($localValue), $resourcePath);
-            } else {
-                $queryParams[$localName] = ObjectSerializer::toQueryValue($localValue);
-            }
-        }
-        // query params
-        if ($request->dest_file_name !== null) {
-            $localName = lcfirst('DestFileName');
-            $localValue = is_bool($request->dest_file_name) ? ($request->dest_file_name ? 'true' : 'false') : $request->dest_file_name;
-            if (strpos($resourcePath, '{' . $localName . '}') !== false) {
-                $resourcePath = str_replace('{' . $localName . '}', ObjectSerializer::toPathValue($localValue), $resourcePath);
-            } else {
-                $queryParams[$localName] = ObjectSerializer::toQueryValue($localValue);
-            }
-        }
-    
-    
-        $resourcePath = $this->_parseURL($resourcePath, $queryParams);
-
-        // body params
-        $_tempBody = null;
-        if (isset($request->report_data)) {
-            if (is_string($request->report_data)) {
-                $_tempBody = "\"" . $request->report_data . "\"";   
-            } else {
-                $_tempBody = $request->report_data;
-            }
-        }
-
-        if ($multipart) {
-            $headers= $this->headerSelector->selectHeadersForMultipart(
-                ['application/json', 'application/xml']
-            );
-        } else {
-            $headers = $this->headerSelector->selectHeaders(
-                ['application/json', 'application/xml'],
-                ['application/json', 'application/xml']
-            );
-        }
-
-        // for model (json/xml)
-        if (isset($_tempBody)) {
-            // $_tempBody is the method argument, if present
-            $httpBody = $_tempBody;
-            // \stdClass has no __toString(), so we should encode it manually
-            if ($httpBody instanceof \stdClass && $headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($httpBody);
-            }
-        } elseif (count($formParams) > 0) {
-            if ($multipart) {
-                $multipartContents = [];
-                foreach ($formParams as $formParamName => $formParamValue) {
-                    $multipartContents[] = [
-                        'name' => $formParamName,
-                        'contents' => $formParamValue,
-                        'filename' => basename($filename)
-                    ];
-                }
-                // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
-
-            } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
-
-            } else {
-                // for HTTP post (form)
-                $httpBody = $formParams["data"];
-            }
-        }
-
-        if ($this->config->getAccessToken() !== null) {
-            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
-        }
-
-        $defaultHeaders = [];
-        if ($this->config->getUserAgent()) {
-            $defaultHeaders['x-aspose-client'] = $this->config->getUserAgent();
-        }
-    
-        $defaultHeaders['x-aspose-client-version'] = $this->config->getClientVersion();
-
-        $headers = array_merge(
-            $defaultHeaders,
-            $headerParams,
-            $headers
-        );
-    
-        $req = new Request(
-            'POST',
-            $resourcePath,
-            $headers,
-            $httpBody
-        );
-        if ($this->config->getDebug()) {
-            $this->_writeRequestLog('POST', $resourcePath, $headers, $httpBody);
-        }
-        
         return $req;
     }
 
@@ -3030,13 +2986,12 @@ class AssemblyApi
     public function uploadFile(Requests\uploadFileRequest $request)
     {
         try {
-             list($response) = $this->uploadFileWithHttpInfo($request);
-             return $response;
+            list($response) = $this->uploadFileWithHttpInfo($request);
+            return $response;
+        } catch (RepeatRequestException $e) {
+            list($response) = $this->uploadFileWithHttpInfo($request);
+            return $response;
         }
-        catch(RepeatRequestException $e) {
-             list($response) = $this->uploadFileWithHttpInfo($request);
-             return $response;
-        } 
     }
 
     /*
@@ -3060,7 +3015,7 @@ class AssemblyApi
             try {
                 $response = $this->client->send($request, $options);
             } catch (RequestException $e) {
-                throw new ApiException("[{$e->getCode()}] {$e->getMessage()}", $e->getCode(), $e->getResponse() ? $e->getResponse()->getHeaders() : null,  $e->getResponse() ? $e->getResponse()->getBody() : null);
+                throw new ApiException("[{$e->getCode()}] {$e->getMessage()}", $e->getCode(), $e->getResponse() ? $e->getResponse()->getHeaders() : null, $e->getResponse() ? $e->getResponse()->getBody() : null);
             }
 
             $statusCode = $response->getStatusCode();
@@ -3070,7 +3025,7 @@ class AssemblyApi
                     $this->_requestToken();
                     throw new RepeatRequestException("Request must be retried", $statusCode, $response->getHeaders(), $response->getBody());
                 }
-          
+
                 throw new ApiException(sprintf('[%d] Error connecting to the API (%s)', $statusCode, $request->getUri()), $statusCode, $response->getHeaders(), $response->getBody());
             }
 
@@ -3083,7 +3038,7 @@ class AssemblyApi
                     $content = json_decode($content);
                 }
             }
-            
+
             if ($this->config->getDebug()) {
                 $this->_writeResponseLog($statusCode, $response->getHeaders(), ObjectSerializer::deserialize($content, $returnType, []));
             }
@@ -3096,10 +3051,10 @@ class AssemblyApi
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
-            case 200:
+                case 200:
                     $data = ObjectSerializer::deserialize($e->getResponseBody(), '\GroupDocs\Assembly\Model\FilesUploadResult', $e->getResponseHeaders());
                     $e->setResponseObject($data);
-                break;
+                    break;
             }
             throw $e;
         }
@@ -3115,7 +3070,7 @@ class AssemblyApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function uploadFileAsync(Requests\uploadFileRequest $request) 
+    public function uploadFileAsync(Requests\uploadFileRequest $request)
     {
         return $this->uploadFileAsyncWithHttpInfo($request)
             ->then(
@@ -3135,7 +3090,7 @@ class AssemblyApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function uploadFileAsyncWithHttpInfo(Requests\uploadFileRequest $request) 
+    public function uploadFileAsyncWithHttpInfo(Requests\uploadFileRequest $request)
     {
         $returnType = '\GroupDocs\Assembly\Model\FilesUploadResult';
         $request = $this->uploadFileRequest($request);
@@ -3153,7 +3108,7 @@ class AssemblyApi
                             $content = json_decode($content);
                         }
                     }
-                    
+
                     if ($this->config->getDebug()) {
                         $this->_writeResponseLog($response->getStatusCode(), $response->getHeaders(), ObjectSerializer::deserialize($content, $returnType, []));
                     }
@@ -3164,15 +3119,15 @@ class AssemblyApi
                         $response->getHeaders()
                     ];
                 },
-                function ($exception) {        
+                function ($exception) {
                     $response = $exception->getResponse();
                     $statusCode = $response->getStatusCode();
-          
+
                     if ($exception instanceof RepeatRequestException) {
                         $this->_refreshToken();
                         throw new RepeatRequestException("Request must be retried", $statusCode, $response->getHeaders(), $response->getBody());
                     }
-          
+
                     throw new ApiException(
                         sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()), $statusCode, $response->getHeaders(), $response->getBody()
                     );
@@ -3205,7 +3160,7 @@ class AssemblyApi
         $headerParams = [];
         $httpBody = "";
         $multipart = false;
-    
+
         // path params
         if ($request->path !== null) {
             $localName = lcfirst('Path');
@@ -3222,13 +3177,13 @@ class AssemblyApi
                 $queryParams[$localName] = ObjectSerializer::toQueryValue($localValue);
             }
         }
-    
-    
+
+
         $resourcePath = $this->_parseURL($resourcePath, $queryParams);
 
         // form params
         if ($request->file !== null) {
-            $multipart = true; 
+            $multipart = true;
             $filename = ObjectSerializer::toFormValue($request->file);
             $handle = fopen($filename, "rb");
             $fsize = filesize($filename);
@@ -3239,13 +3194,13 @@ class AssemblyApi
         $_tempBody = null;
 
         if ($multipart) {
-            $headers= $this->headerSelector->selectHeadersForMultipart(
+            $headers = $this->headerSelector->selectHeadersForMultipart(
                 ['application/json', 'application/xml']
             );
         } else {
             $headers = $this->headerSelector->selectHeaders(
                 ['application/json', 'application/xml'],
-                ['application/json', 'application/xml', 'multipart/form-data']
+                ['multipart/form-data']
             );
         }
 
@@ -3287,7 +3242,7 @@ class AssemblyApi
         if ($this->config->getUserAgent()) {
             $defaultHeaders['x-aspose-client'] = $this->config->getUserAgent();
         }
-    
+
         $defaultHeaders['x-aspose-client-version'] = $this->config->getClientVersion();
 
         $headers = array_merge(
@@ -3295,7 +3250,7 @@ class AssemblyApi
             $headerParams,
             $headers
         );
-    
+
         $req = new Request(
             'PUT',
             $resourcePath,
@@ -3305,7 +3260,7 @@ class AssemblyApi
         if ($this->config->getDebug()) {
             $this->_writeRequestLog('PUT', $resourcePath, $headers, $httpBody);
         }
-        
+
         return $req;
     }
 
@@ -3315,7 +3270,7 @@ class AssemblyApi
      * @throws \RuntimeException on file opening failure
      * @return array of http client options
      */
-    private function _createHttpClientOption() 
+    private function _createHttpClientOption()
     {
         $options = [];
         if ($this->config->getDebug()) {
@@ -3327,7 +3282,7 @@ class AssemblyApi
 
         return $options;
     }
-    
+
     /*
      * Executes response logging
      */
@@ -3336,7 +3291,7 @@ class AssemblyApi
         $logInfo = "\nResponse: $statusCode \n";
         echo $logInfo . $this->_writeHeadersAndBody($logInfo, $headers, $body);
     }
-	
+
     /*
      * Executes request logging
      */
@@ -3345,7 +3300,7 @@ class AssemblyApi
         $logInfo = "\n$method: $url \n";
         echo $logInfo . $this->_writeHeadersAndBody($logInfo, $headers, $body);
     }
-	
+
     /*
      * Executes header and boy formatting
      */
@@ -3354,27 +3309,27 @@ class AssemblyApi
         foreach ($headers as $name => $value) {
             $logInfo .= $name . ': ' . $value . "\n";
         }
-        
+
         return $logInfo .= "Body: " . $body . "\n";
     }
 
     /*
      * Executes url parsing
      */
-    private function _parseURL($url, $queryParams) 
+    private function _parseURL($url, $queryParams)
     {
         $urlQuery = http_build_query($queryParams);
         return $this->config->getHost() . $this->config->getBasePath() . $url . "?" . $urlQuery;
     }
-  
+
     /*
      * Gets a request token from server
      */
-    private function _requestToken() 
+    private function _requestToken()
     {
         $requestUrl = $this->config->getHost() . "connect/token";
         $params = array(
-            "grant_type"=>'client_credentials',
+            "grant_type" => 'client_credentials',
             "client_id" => $this->config->getAppSid(),
             "client_secret" => $this->config->getAppKey()
         );
@@ -3391,5 +3346,4 @@ class AssemblyApi
         $result = json_decode($response->getBody()->getContents(), true);
         $this->config->setAccessToken($result["access_token"]);
     }
-  
 }

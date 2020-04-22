@@ -27,28 +27,9 @@
 */
 
 namespace GroupDocs\Assembly\Test;
-
-function autoload( $path ) {
-    $items = glob( $path . DIRECTORY_SEPARATOR . "*" );
-
-    foreach( $items as $item ) {
-        $pinfo = pathinfo( $item );         
-        $isPhp = array_key_exists("extension", $pinfo) && $pinfo["extension"] === "php";
-        if ( is_file( $item ) && $isPhp ) {
-            require_once $item;
-        } elseif ( is_dir( $item ) ) {
-            autoload( $item );
-        }
-    }
-}
-
-autoload( $_SERVER['DOCUMENT_ROOT'] . "Assembly" );
-
 require_once $_SERVER['DOCUMENT_ROOT'] . "tests/GroupDocs/Assembly/BaseTestContext.php";
-use GroupDocs\Assembly\ApiException;
 use GroupDocs\Assembly\Model;
 use GroupDocs\Assembly\Model\Requests;
-use BaseTest\BaseTestContext;
 use PHPUnit\Framework\Assert;
 /**
  * Class for testing Assembly Api
@@ -60,29 +41,22 @@ class AssemblyApiTests extends BaseTestContext
      * 
      * @return void
      */
-    public function testPostAssembleDocument()
+    public function testAssembleDocument()
     {
-        $baseTestDir = realpath(__DIR__ . '../../') . 'TestData/';
-        $fileName = 'TestAllChartTypes.docx';
+        $baseTestDir = realpath(__DIR__ . '../../') . '/TestData/';
+        $fileName = 'TableFeatures.odt';
         $remoteName = $fileName;
-        $fullName = self::$baseRemoteFolder . "GroupDocs.Assembly/" . $remoteName;
+        $fullName = self::$baseRemoteFolder . "GroupDocs/Assembly/" . $remoteName;
         $file = $baseTestDir . $fileName;
         $putRequest = new Requests\UploadFileRequest($file, $fullName);
         $this->assembly->uploadFile($putRequest);
+        $reportData = file_get_contents(realpath($baseTestDir . 'TableData.json'));
 
-        $saveData = new Model\ReportOptionsData(array(
-            "save_format" => "pdf",
-            "report_data" => file_get_contents($baseTestDir . "Teams.json")
-        ));
+        $assembleData = new Model\AssembleOptions(array("template_file_info"=>new Model\TemplateFileInfo(array("file_path"=> $fullName)), "save_format"=>"pdf", "report_data"=> $reportData));
 
-        $request = new Requests\PostAssembleDocumentRequest(
-            $remoteName, 
-            $saveData, 
-            self::$baseRemoteFolder . "GroupDocs.Assembly", 
-            null
-        );
+        $request = new Requests\AssembleDocumentRequest($assembleData);
 
-        $result = $this->assembly->postAssembleDocument($request);
-        Assert::assertNotNull($result, "Answer cannot be empty");
+        $result = $this->assembly->assembleDocument($request);
+        Assert::assertTrue($result->getSize() > 0, "Error while assemble");
     }
 }

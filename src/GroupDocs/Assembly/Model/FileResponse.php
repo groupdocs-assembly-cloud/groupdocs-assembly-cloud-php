@@ -1,8 +1,8 @@
 <?php
 /**
  * --------------------------------------------------------------------------------------------------------------------
- * <copyright company="GroupDocs" file="FilesList.php">
- *   Copyright (c) 2019 GroupDocs.Assembly for Cloud
+ * <copyright company="Aspose" file="FileResponse.php">
+ *   Copyright (c) 2020 GroupDocs.Assembly for Cloud
  * </copyright>
  * <summary>
  *   Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -26,7 +26,7 @@
  * --------------------------------------------------------------------------------------------------------------------
  */
 /*
- * FilesList
+ * FileResponse
  */
 
 namespace GroupDocs\Assembly\Model;
@@ -35,11 +35,11 @@ use \ArrayAccess;
 use \GroupDocs\Assembly\ObjectSerializer;
 
 /*
- * FilesList
+ * FileResponse
  *
- * @description Files list
+ * @description The empty type used as a flag.
  */
-class FilesList implements ArrayAccess
+class FileResponse implements ArrayAccess
 {
     const DISCRIMINATOR = null;
 
@@ -48,7 +48,7 @@ class FilesList implements ArrayAccess
      *
      * @var string
      */
-    protected static $swaggerModelName = "FilesList";
+    protected static $swaggerModelName = "FileResponse";
 
     /*
      * Array of property to type mappings. Used for (de)serialization
@@ -56,7 +56,7 @@ class FilesList implements ArrayAccess
      * @var string[]
      */
     protected static $swaggerTypes = [
-        'value' => '\GroupDocs\Assembly\Model\StorageFile[]'
+        
     ];
 
     /*
@@ -65,7 +65,7 @@ class FilesList implements ArrayAccess
      * @var string[]
      */
     protected static $swaggerFormats = [
-        'value' => null
+        
     ];
 
     /*
@@ -95,7 +95,7 @@ class FilesList implements ArrayAccess
      * @var string[]
      */
     protected static $attributeMap = [
-        'value' => 'Value'
+        
     ];
 
     /*
@@ -104,7 +104,7 @@ class FilesList implements ArrayAccess
      * @var string[]
      */
     protected static $setters = [
-        'value' => 'setValue'
+        
     ];
 
     /*
@@ -113,7 +113,7 @@ class FilesList implements ArrayAccess
      * @var string[]
      */
     protected static $getters = [
-        'value' => 'getValue'
+        
     ];
 
     /*
@@ -176,7 +176,6 @@ class FilesList implements ArrayAccess
      */
     public function __construct(array $data = null)
     {
-        $this->container['value'] = isset($data['value']) ? $data['value'] : null;
     }
 
     /*
@@ -203,30 +202,6 @@ class FilesList implements ArrayAccess
         return true;
     }
 
-
-    /*
-     * Gets value
-     *
-     * @return \GroupDocs\Assembly\Model\StorageFile[]
-     */
-    public function getValue()
-    {
-        return $this->container['value'];
-    }
-
-    /*
-     * Sets value
-     *
-     * @param \GroupDocs\Assembly\Model\StorageFile[] $value Files and folders contained by folder .
-     *
-     * @return $this
-     */
-    public function setValue($value)
-    {
-        $this->container['value'] = $value;
-
-        return $this;
-    }
     /*
      * Returns true if offset exists. False otherwise.
      *

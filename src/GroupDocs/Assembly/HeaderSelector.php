@@ -1,8 +1,8 @@
 <?php
 /**
  * --------------------------------------------------------------------------------------------------------------------
- * <copyright company="GroupDocs" file="HeaderSelector.php">
- *   Copyright (c) 2019 GroupDocs.Assembly for Cloud
+ * <copyright company="Aspose" file="HeaderSelector.php">
+ *   Copyright (c) 2020 GroupDocs.Assembly for Cloud
  * </copyright>
  * <summary>
  *   Permission is hereby granted, free of charge, to any person obtaining a copy

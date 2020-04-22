@@ -1,8 +1,8 @@
 <?php
 /**
  * --------------------------------------------------------------------------------------------------------------------
- * <copyright company="GroupDocs" file="FileResponse.php">
- *   Copyright (c) 2019 GroupDocs.Assembly for Cloud
+ * <copyright company="Aspose" file="FileFormatsResponse.php">
+ *   Copyright (c) 2020 GroupDocs.Assembly for Cloud
  * </copyright>
  * <summary>
  *   Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -26,20 +26,18 @@
  * --------------------------------------------------------------------------------------------------------------------
  */
 /*
- * FileResponse
+ * FileFormatsResponse
  */
 
 namespace GroupDocs\Assembly\Model;
-
-use \ArrayAccess;
 use \GroupDocs\Assembly\ObjectSerializer;
 
 /*
- * FileResponse
+ * FileFormatsResponse
  *
- * @description The empty type used as a flag.
+ * @description Response with file formats.
  */
-class FileResponse implements ArrayAccess
+class FileFormatsResponse extends AssemblyResponse 
 {
     const DISCRIMINATOR = null;
 
@@ -48,7 +46,7 @@ class FileResponse implements ArrayAccess
      *
      * @var string
      */
-    protected static $swaggerModelName = "FileResponse";
+    protected static $swaggerModelName = "FileFormatsResponse";
 
     /*
      * Array of property to type mappings. Used for (de)serialization
@@ -56,7 +54,9 @@ class FileResponse implements ArrayAccess
      * @var string[]
      */
     protected static $swaggerTypes = [
-        
+        'file_formats' => '\GroupDocs\Assembly\Model\FormatCollection',
+        'code' => 'int',
+        'status' => 'string'
     ];
 
     /*
@@ -65,7 +65,9 @@ class FileResponse implements ArrayAccess
      * @var string[]
      */
     protected static $swaggerFormats = [
-        
+        'file_formats' => null,
+        'code' => 'int32',
+        'status' => null
     ];
 
     /*
@@ -75,7 +77,7 @@ class FileResponse implements ArrayAccess
      */
     public static function swaggerTypes()
     {
-        return self::$swaggerTypes;
+        return self::$swaggerTypes + parent::swaggerTypes();
     }
 
     /*
@@ -85,7 +87,7 @@ class FileResponse implements ArrayAccess
      */
     public static function swaggerFormats()
     {
-        return self::$swaggerFormats;
+        return self::$swaggerFormats + parent::swaggerFormats();
     }
 
     /*
@@ -95,7 +97,9 @@ class FileResponse implements ArrayAccess
      * @var string[]
      */
     protected static $attributeMap = [
-        
+        'file_formats' => 'FileFormats',
+        'code' => 'Code',
+        'status' => 'Status'
     ];
 
     /*
@@ -104,7 +108,9 @@ class FileResponse implements ArrayAccess
      * @var string[]
      */
     protected static $setters = [
-        
+        'file_formats' => 'setFileFormats',
+        'code' => 'setCode',
+        'status' => 'setStatus'
     ];
 
     /*
@@ -113,7 +119,9 @@ class FileResponse implements ArrayAccess
      * @var string[]
      */
     protected static $getters = [
-        
+        'file_formats' => 'getFileFormats',
+        'code' => 'getCode',
+        'status' => 'getStatus'
     ];
 
     /*
@@ -124,7 +132,7 @@ class FileResponse implements ArrayAccess
      */
     public static function attributeMap()
     {
-        return self::$attributeMap;
+        return parent::attributeMap() + self::$attributeMap;
     }
 
     /*
@@ -134,7 +142,7 @@ class FileResponse implements ArrayAccess
      */
     public static function setters()
     {
-        return self::$setters;
+        return parent::setters() + self::$setters;
     }
 
     /*
@@ -144,7 +152,7 @@ class FileResponse implements ArrayAccess
      */
     public static function getters()
     {
-        return self::$getters;
+        return parent::getters() + self::$getters;
     }
 
     /*
@@ -161,12 +169,6 @@ class FileResponse implements ArrayAccess
 
     
 
-    /*
-     * Associative array for storing property values
-     *
-     * @var mixed[]
-     */
-    protected $container = [];
 
     /*
      * Constructor
@@ -176,6 +178,11 @@ class FileResponse implements ArrayAccess
      */
     public function __construct(array $data = null)
     {
+        parent::__construct($data);
+
+        $this->container['file_formats'] = isset($data['file_formats']) ? $data['file_formats'] : null;
+        $this->container['code'] = isset($data['code']) ? $data['code'] : null;
+        $this->container['status'] = isset($data['status']) ? $data['status'] : null;
     }
 
     /*
@@ -185,7 +192,7 @@ class FileResponse implements ArrayAccess
      */
     public function listInvalidProperties()
     {
-        $invalidProperties = [];
+        $invalidProperties = parent::listInvalidProperties();
 
         return $invalidProperties;
     }
@@ -198,10 +205,85 @@ class FileResponse implements ArrayAccess
      */
     public function valid()
     {
+        if (!parent::valid()) {
+            return false;
+        }
 
         return true;
     }
 
+
+    /*
+     * Gets file_formats
+     *
+     * @return \GroupDocs\Assembly\Model\FormatCollection
+     */
+    public function getFileFormats()
+    {
+        return $this->container['file_formats'];
+    }
+
+    /*
+     * Sets file_formats
+     *
+     * @param \GroupDocs\Assembly\Model\FormatCollection $file_formats Gets or sets file formats.
+     *
+     * @return $this
+     */
+    public function setFileFormats($file_formats)
+    {
+        $this->container['file_formats'] = $file_formats;
+
+        return $this;
+    }
+
+    /*
+     * Gets code
+     *
+     * @return int
+     */
+    public function getCode()
+    {
+        return $this->container['code'];
+    }
+
+    /*
+     * Sets code
+     *
+     * @param int $code Gets response status code.
+     *
+     * @return $this
+     */
+    public function setCode($code)
+    {
+        $this->container['code'] = $code;
+
+        return $this;
+    }
+
+    /*
+     * Gets status
+     *
+     * @return string
+     */
+    public function getStatus()
+    {
+        return $this->container['status'];
+    }
+
+    /*
+     * Sets status
+     *
+     * @param string $status Gets or sets response status.
+     *
+     * @return $this
+     */
+    public function setStatus($status)
+    {
+        $this->container['status'] = $status;
+
+        return $this;
+    }
     /*
      * Returns true if offset exists. False otherwise.
      *

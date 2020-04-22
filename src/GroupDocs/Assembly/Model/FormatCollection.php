@@ -1,8 +1,8 @@
 <?php
 /**
  * --------------------------------------------------------------------------------------------------------------------
- * <copyright company="GroupDocs" file="FormatCollection.php">
- *   Copyright (c) 2019 GroupDocs.Assembly for Cloud
+ * <copyright company="Aspose" file="FormatCollection.php">
+ *   Copyright (c) 2020 GroupDocs.Assembly for Cloud
  * </copyright>
  * <summary>
  *   Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -217,7 +217,7 @@ class FormatCollection implements ArrayAccess
     /*
      * Sets formats
      *
-     * @param \GroupDocs\Assembly\Model\Format[] $formats Supported file formats.
+     * @param \GroupDocs\Assembly\Model\Format[] $formats Gets or sets supported file formats.
      *
      * @return $this
      */

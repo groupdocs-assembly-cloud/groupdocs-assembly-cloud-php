@@ -1,8 +1,8 @@
 <?php
 /**
  * --------------------------------------------------------------------------------------------------------------------
- * <copyright company="GroupDocs" file="Format.php">
- *   Copyright (c) 2019 GroupDocs.Assembly for Cloud
+ * <copyright company="Aspose" file="Format.php">
+ *   Copyright (c) 2020 GroupDocs.Assembly for Cloud
  * </copyright>
  * <summary>
  *   Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -223,7 +223,7 @@ class Format implements ArrayAccess
     /*
      * Sets file_format
      *
-     * @param string $file_format File format.
+     * @param string $file_format Gets or sets file format.
      *
      * @return $this
      */
@@ -247,7 +247,7 @@ class Format implements ArrayAccess
     /*
      * Sets extension
      *
-     * @param string $extension File extension.
+     * @param string $extension Gets or sets file extension.
      *
      * @return $this
      */

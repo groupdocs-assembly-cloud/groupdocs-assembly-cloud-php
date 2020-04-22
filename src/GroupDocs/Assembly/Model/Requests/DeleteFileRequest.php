@@ -1,8 +1,8 @@
 <?php
 /**
  * --------------------------------------------------------------------------------------------------------------------
- * <copyright company="GroupDocs" file="DeleteFileRequest.php">
- *   Copyright (c) 2019 GroupDocs.Assembly for Cloud
+ * <copyright company="Aspose" file="DeleteFileRequest.php">
+ *   Copyright (c) 2020 GroupDocs.Assembly for Cloud
  * </copyright>
  * <summary>
  *   Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -37,18 +37,18 @@ class DeleteFileRequest
      * Path of the file including file name and extension e.g. /Folder1/file.ext
      */
     public $path;
-	
+
     /*
      * Storage name
      */
     public $storage_name;
-	
+
     /*
      * File version ID to delete
      */
     public $version_id;
-    
-	
+
+
     /*
      * Initializes a new instance of the DeleteFileRequest class.
      *  
@@ -56,7 +56,7 @@ class DeleteFileRequest
      * @param string $storage_name Storage name
      * @param string $version_id File version ID to delete
      */
-    public function __construct($path, $storage_name = null, $version_id = null)             
+    public function __construct($path, $storage_name = null, $version_id = null)
     {
         $this->path = $path;
         $this->storage_name = $storage_name;
@@ -79,7 +79,7 @@ class DeleteFileRequest
         $this->path = $value;
         return $this;
     }
-	
+
     /*
      * Storage name
      */
@@ -96,7 +96,7 @@ class DeleteFileRequest
         $this->storage_name = $value;
         return $this;
     }
-	
+
     /*
      * File version ID to delete
      */

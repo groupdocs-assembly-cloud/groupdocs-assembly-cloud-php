@@ -1,8 +1,8 @@
 <?php
 /**
  * --------------------------------------------------------------------------------------------------------------------
- * <copyright company="GroupDocs" file="FileResponse.php">
- *   Copyright (c) 2019 GroupDocs.Assembly for Cloud
+ * <copyright company="Aspose" file="Format.php">
+ *   Copyright (c) 2020 GroupDocs.Assembly for Cloud
  * </copyright>
  * <summary>
  *   Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -26,7 +26,7 @@
  * --------------------------------------------------------------------------------------------------------------------
  */
 /*
- * FileResponse
+ * Format
  */
 
 namespace GroupDocs\Assembly\Model;
@@ -35,11 +35,11 @@ use \ArrayAccess;
 use \GroupDocs\Assembly\ObjectSerializer;
 
 /*
- * FileResponse
+ * Format
  *
- * @description The empty type used as a flag.
+ * @description Format description.
  */
-class FileResponse implements ArrayAccess
+class Format implements ArrayAccess
 {
     const DISCRIMINATOR = null;
 
@@ -48,7 +48,7 @@ class FileResponse implements ArrayAccess
      *
      * @var string
      */
-    protected static $swaggerModelName = "FileResponse";
+    protected static $swaggerModelName = "Format";
 
     /*
      * Array of property to type mappings. Used for (de)serialization
@@ -56,7 +56,8 @@ class FileResponse implements ArrayAccess
      * @var string[]
      */
     protected static $swaggerTypes = [
-        
+        'file_format' => 'string',
+        'extension' => 'string'
     ];
 
     /*
@@ -65,7 +66,8 @@ class FileResponse implements ArrayAccess
      * @var string[]
      */
     protected static $swaggerFormats = [
-        
+        'file_format' => null,
+        'extension' => null
     ];
 
     /*
@@ -95,7 +97,8 @@ class FileResponse implements ArrayAccess
      * @var string[]
      */
     protected static $attributeMap = [
-        
+        'file_format' => 'FileFormat',
+        'extension' => 'Extension'
     ];
 
     /*
@@ -104,7 +107,8 @@ class FileResponse implements ArrayAccess
      * @var string[]
      */
     protected static $setters = [
-        
+        'file_format' => 'setFileFormat',
+        'extension' => 'setExtension'
     ];
 
     /*
@@ -113,7 +117,8 @@ class FileResponse implements ArrayAccess
      * @var string[]
      */
     protected static $getters = [
-        
+        'file_format' => 'getFileFormat',
+        'extension' => 'getExtension'
     ];
 
     /*
@@ -176,6 +181,8 @@ class FileResponse implements ArrayAccess
      */
     public function __construct(array $data = null)
     {
+        $this->container['file_format'] = isset($data['file_format']) ? $data['file_format'] : null;
+        $this->container['extension'] = isset($data['extension']) ? $data['extension'] : null;
     }
 
     /*
@@ -202,6 +209,54 @@ class FileResponse implements ArrayAccess
         return true;
     }
 
+
+    /*
+     * Gets file_format
+     *
+     * @return string
+     */
+    public function getFileFormat()
+    {
+        return $this->container['file_format'];
+    }
+
+    /*
+     * Sets file_format
+     *
+     * @param string $file_format Gets or sets file format.
+     *
+     * @return $this
+     */
+    public function setFileFormat($file_format)
+    {
+        $this->container['file_format'] = $file_format;
+
+        return $this;
+    }
+
+    /*
+     * Gets extension
+     *
+     * @return string
+     */
+    public function getExtension()
+    {
+        return $this->container['extension'];
+    }
+
+    /*
+     * Sets extension
+     *
+     * @param string $extension Gets or sets file extension.
+     *
+     * @return $this
+     */
+    public function setExtension($extension)
+    {
+        $this->container['extension'] = $extension;
+
+        return $this;
+    }
     /*
      * Returns true if offset exists. False otherwise.
      *

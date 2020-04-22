@@ -28,11 +28,8 @@
 
 namespace GroupDocs\Assembly\Test;
 require_once $_SERVER['DOCUMENT_ROOT'] . "tests/GroupDocs/Assembly/BaseTestContext.php";
-use GroupDocs\Assembly\ApiException;
 use GroupDocs\Assembly\Model;
 use GroupDocs\Assembly\Model\Requests;
-use Aspose\Storage\Model\Requests as StorageRequests;
-use BaseTest\BaseTestContext;
 use PHPUnit\Framework\Assert;
 /**
  * Class for testing Assembly Api
@@ -44,25 +41,22 @@ class AssemblyApiTests extends BaseTestContext
      * 
      * @return void
      */
-    public function testPostAssembleDocument()
+    public function testAssembleDocument()
     {
         $baseTestDir = realpath(__DIR__ . '../../') . '/TestData/';
-        $fileName = 'TestAllChartTypes.docx';
+        $fileName = 'TableFeatures.odt';
         $remoteName = $fileName;
         $fullName = self::$baseRemoteFolder . "GroupDocs/Assembly/" . $remoteName;
         $file = $baseTestDir . $fileName;
-        $putRequest = new StorageRequests\PutCreateRequest($fullName, $file);
-        $this->storage->PutCreate($putRequest);
+        $putRequest = new Requests\UploadFileRequest($file, $fullName);
+        $this->assembly->uploadFile($putRequest);
+        $reportData = file_get_contents(realpath($baseTestDir . 'TableData.json'));
 
-        $request = new Requests\PostAssembleDocumentRequest(
-            $remoteName, 
-            $baseTestDir . "Teams.json", 
-            new Model\LoadSaveOptionsData(array("save_format" => "docx")), 
-            null, 
-            null
-        );
+        $assembleData = new Model\AssembleOptions(array("template_file_info"=>new Model\TemplateFileInfo(array("file_path"=> $fullName)), "save_format"=>"pdf", "report_data"=> $reportData));
 
-        $result = $this->assembly->postAssembleDocument($request);
-        Assert::assertNotNull($result, "Answer cannot be empty");
+        $request = new Requests\AssembleDocumentRequest($assembleData);
+
+        $result = $this->assembly->assembleDocument($request);
+        Assert::assertTrue($result->getSize() > 0, "Error while assemble");
     }
 }

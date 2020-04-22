@@ -16,8 +16,8 @@ node('words-linux') {
             
             stage('tests'){   
                 try {
-                    sh "docker run --rm -v ${pwd()}:/app composer/composer:latest require --dev phpunit/phpunit ^6.0"
-                    sh "docker run -v ${pwd()}:/app -w /app --rm phpunit/phpunit:6.0.6 -c phpunit.xml"
+                    sh "docker run -v %cd%/:/opt/project -w="/opt/project" composer composer install --no-interaction"
+                    sh "docker run -v %cd%:/PHP -v %cd%/Settings/servercreds.json:/servercreds.json -v %cd%/TestData:/TestData -w="/PHP" --rm php:7.2.2 vendor/bin/phpunit -c phpunit.xml"
                 } finally {
                     junit 'testReports/logfile.xml'
                 }

@@ -43,12 +43,11 @@ class AssemblyApiTests extends BaseTestContext
      */
     public function testAssembleDocument()
     {
-        $baseTestDir = realpath(__DIR__ . '../../../..') . '/TestData/';
+        $baseTestDir = realpath(__DIR__ . '/../../..') . '/TestData/';
         $fileName = 'TableFeatures.odt';
         $remoteName = $fileName;
         $fullName = self::$baseRemoteFolder . "GroupDocs/Assembly/" . $remoteName;
         $file = $baseTestDir . $fileName;
-        echo $baseTestDir;
         $putRequest = new Requests\UploadFileRequest($file, $fullName);
         $this->assembly->uploadFile($putRequest);
         $reportData = file_get_contents(realpath($baseTestDir . 'TableData.json'));

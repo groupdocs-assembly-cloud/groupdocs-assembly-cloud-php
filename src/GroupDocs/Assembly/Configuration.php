@@ -143,7 +143,7 @@ class Configuration
      * @param string   $appKey app key
      * @param string   $baseUrl base url for requests
      */
-    public function __construct(string $appSid, string $appKey, string $baseUrl)
+    public function __construct($appSid, $appKey, $baseUrl)
     {
         $this->tempFolderPath = sys_get_temp_dir();
         date_default_timezone_set('UTC');

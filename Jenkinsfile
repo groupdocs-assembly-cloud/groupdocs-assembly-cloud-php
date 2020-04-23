@@ -1,10 +1,11 @@
 parameters {
         string(name: 'branch', defaultValue: 'master', description: 'branch to test')		
-		string(name: 'testServerUrl', defaultValue: 'https://api-qa.groupdocs.cloud', description: 'server url')		
+		string(name: 'testServerUrl', defaultValue: 'https://api-qa.groupdocs.cloud/', description: 'server url')		
 }
 
-node('words-linux') {
-    dir('test'){
+def runtests(dockerImageVersion)
+{
+    dir(dockerImageVersion){
         try {
             stage('checkout'){
 				checkout([$class: 'GitSCM', branches: [[name: params.branch]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'LocalBranch', localBranch: "**"]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '361885ba-9425-4230-950e-0af201d90547', url: 'https://git.auckland.dynabic.com/assembly-cloud/assembly-php-sdk.git']]])
@@ -14,16 +15,26 @@ node('words-linux') {
                 }
             }
             
-            stage('tests'){   
-                try {
-                    sh "docker run --rm -v ${pwd()}:/app composer/composer:latest require --dev phpunit/phpunit ^4.8"
-                    sh "docker run -v ${pwd()}:/app -w /app --rm phpunit/phpunit:4.8.3 -c phpunit.xml"
-                } finally {
-                    junit 'testReports/logfile.xml'
+            def testImage = docker.build("groupdocsassembly:${dockerImageVersion}", "./docker/${dockerImageVersion}")
+            
+            testImage.inside {
+                stage('tests'){   
+					try {
+                        sh "php composer.phar install --no-interaction"
+                        sh "php composer.phar dump-autoload -o"
+						sh "php vendor/bin/phpunit -c phpunit.xml"
+					} finally {
+						junit 'testReports/logfile.xml'
+					}
                 }
-            }      
+            }        
         } finally {                       
             deleteDir()
         }
     }
+}
+
+node('words-linux') {
+    runtests("latest")
+	runtests("7.1")
 }

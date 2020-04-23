@@ -48,6 +48,7 @@ class AssemblyApiTests extends BaseTestContext
         $remoteName = $fileName;
         $fullName = self::$baseRemoteFolder . "GroupDocs/Assembly/" . $remoteName;
         $file = $baseTestDir . $fileName;
+        echo $baseTestDir;
         $putRequest = new Requests\UploadFileRequest($file, $fullName);
         $this->assembly->uploadFile($putRequest);
         $reportData = file_get_contents(realpath($baseTestDir . 'TableData.json'));

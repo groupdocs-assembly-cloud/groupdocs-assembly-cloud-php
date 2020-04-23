@@ -43,7 +43,7 @@ class AssemblyApiTests extends BaseTestContext
      */
     public function testAssembleDocument()
     {
-        $baseTestDir = realpath(__DIR__ . '../../') . '/TestData/';
+        $baseTestDir = realpath(__DIR__ . '../../../..') . '/TestData/';
         $fileName = 'TableFeatures.odt';
         $remoteName = $fileName;
         $fullName = self::$baseRemoteFolder . "GroupDocs/Assembly/" . $remoteName;

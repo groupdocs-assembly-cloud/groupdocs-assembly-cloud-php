@@ -1,6 +1,6 @@
 {
     "description": 	"This repository contains GroupDocs Assembly Cloud SDK for PHP source code. This SDK allows you to work with GroupDocs.Assembly Cloud REST APIs in your .NET applications quickly and easily, with zero initial cost.",
-    "name": 		"groupdocs-cloud/groupdocs-assembly-cloud-php",
+    "name": 		"groupdocs-cloud/groupdocs-assembly-cloud",
     "type": 		"library",
     "keywords" : 	["groupdocs", "php", "groupdocs cloud"],
 	"license": 		"MIT",

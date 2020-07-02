@@ -16,7 +16,7 @@ node('words-linux') {
             
             stage('tests'){   
                 try {
-                    sh "docker run --rm -v ${pwd()}:/app composer/composer:latest require --dev phpunit/phpunit ^4.8"
+                    sh "docker run --rm -v ${pwd()}:/app composer require --dev phpunit/phpunit ^4.8"
                     sh "docker run -v ${pwd()}:/app -v ${pwd()}/TestData:/app/TestData -w /app --rm phpunit/phpunit:4.8.3 -c phpunit.xml"
                 } finally {
                     junit 'testReports/logfile.xml'

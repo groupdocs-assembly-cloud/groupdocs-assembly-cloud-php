@@ -1,8 +1,9 @@
 <?php
+}
 /**
  * --------------------------------------------------------------------------------------------------------------------
  * <copyright company="Aspose" file="MoveFileRequest.php">
- *   Copyright (c) 2020 GroupDocs.Assembly for Cloud
+ *   Copyright (c) 2021 GroupDocs.Assembly for Cloud
  * </copyright>
  * <summary>
  *   Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -37,28 +38,28 @@ class MoveFileRequest
      * Destination file path e.g. '/dest.ext'
      */
     public $dest_path;
-
+	
     /*
      * Source file's path e.g. '/Folder 1/file.ext' or '/Bucket/Folder 1/file.ext'
      */
     public $src_path;
-
+	
     /*
      * Source storage name
      */
     public $src_storage_name;
-
+	
     /*
      * Destination storage name
      */
     public $dest_storage_name;
-
+	
     /*
      * File version ID to move
      */
     public $version_id;
-
-
+    
+	
     /*
      * Initializes a new instance of the MoveFileRequest class.
      *  
@@ -68,7 +69,7 @@ class MoveFileRequest
      * @param string $dest_storage_name Destination storage name
      * @param string $version_id File version ID to move
      */
-    public function __construct($dest_path, $src_path, $src_storage_name = null, $dest_storage_name = null, $version_id = null)
+    public function __construct($dest_path, $src_path, $src_storage_name = null, $dest_storage_name = null, $version_id = null)             
     {
         $this->dest_path = $dest_path;
         $this->src_path = $src_path;
@@ -93,7 +94,7 @@ class MoveFileRequest
         $this->dest_path = $value;
         return $this;
     }
-
+	
     /*
      * Source file's path e.g. '/Folder 1/file.ext' or '/Bucket/Folder 1/file.ext'
      */
@@ -110,7 +111,7 @@ class MoveFileRequest
         $this->src_path = $value;
         return $this;
     }
-
+	
     /*
      * Source storage name
      */
@@ -127,7 +128,7 @@ class MoveFileRequest
         $this->src_storage_name = $value;
         return $this;
     }
-
+	
     /*
      * Destination storage name
      */
@@ -144,7 +145,7 @@ class MoveFileRequest
         $this->dest_storage_name = $value;
         return $this;
     }
-
+	
     /*
      * File version ID to move
      */
@@ -161,4 +162,3 @@ class MoveFileRequest
         $this->version_id = $value;
         return $this;
     }
-}

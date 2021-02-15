@@ -2,7 +2,7 @@
 /**
  * --------------------------------------------------------------------------------------------------------------------
  * <copyright company="Aspose" file="ApiError.php">
- *   Copyright (c) 2020 GroupDocs.Assembly for Cloud
+ *   Copyright (c) 2021 GroupDocs.Assembly for Cloud
  * </copyright>
  * <summary>
  *   Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -60,7 +60,7 @@ class ApiError implements ArrayAccess
         'message' => 'string',
         'description' => 'string',
         'date_time' => '\DateTime',
-        'inner_api_error' => '\GroupDocs\Assembly\Model\ApiError'
+        'inner_error' => '\GroupDocs\Assembly\Model\ApiError'
     ];
 
     /*
@@ -73,7 +73,7 @@ class ApiError implements ArrayAccess
         'message' => null,
         'description' => null,
         'date_time' => 'date-time',
-        'inner_api_error' => null
+        'inner_error' => null
     ];
 
     /*
@@ -107,7 +107,7 @@ class ApiError implements ArrayAccess
         'message' => 'Message',
         'description' => 'Description',
         'date_time' => 'DateTime',
-        'inner_api_error' => 'InnerApiError'
+        'inner_error' => 'InnerError'
     ];
 
     /*
@@ -120,7 +120,7 @@ class ApiError implements ArrayAccess
         'message' => 'setMessage',
         'description' => 'setDescription',
         'date_time' => 'setDateTime',
-        'inner_api_error' => 'setInnerApiError'
+        'inner_error' => 'setInnerError'
     ];
 
     /*
@@ -133,7 +133,7 @@ class ApiError implements ArrayAccess
         'message' => 'getMessage',
         'description' => 'getDescription',
         'date_time' => 'getDateTime',
-        'inner_api_error' => 'getInnerApiError'
+        'inner_error' => 'getInnerError'
     ];
 
     /*
@@ -200,7 +200,7 @@ class ApiError implements ArrayAccess
         $this->container['message'] = isset($data['message']) ? $data['message'] : null;
         $this->container['description'] = isset($data['description']) ? $data['description'] : null;
         $this->container['date_time'] = isset($data['date_time']) ? $data['date_time'] : null;
-        $this->container['inner_api_error'] = isset($data['inner_api_error']) ? $data['inner_api_error'] : null;
+        $this->container['inner_error'] = isset($data['inner_error']) ? $data['inner_error'] : null;
     }
 
     /*
@@ -325,25 +325,25 @@ class ApiError implements ArrayAccess
     }
 
     /*
-     * Gets inner_api_error
+     * Gets inner_error
      *
      * @return \GroupDocs\Assembly\Model\ApiError
      */
-    public function getInnerApiError()
+    public function getInnerError()
     {
-        return $this->container['inner_api_error'];
+        return $this->container['inner_error'];
     }
 
     /*
-     * Sets inner_api_error
+     * Sets inner_error
      *
-     * @param \GroupDocs\Assembly\Model\ApiError $inner_api_error Gets or sets inner error.
+     * @param \GroupDocs\Assembly\Model\ApiError $inner_error Gets or sets inner error.
      *
      * @return $this
      */
-    public function setInnerApiError($inner_api_error)
+    public function setInnerError($inner_error)
     {
-        $this->container['inner_api_error'] = $inner_api_error;
+        $this->container['inner_error'] = $inner_error;
 
         return $this;
     }

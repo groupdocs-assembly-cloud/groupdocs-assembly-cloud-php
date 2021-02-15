@@ -1,8 +1,9 @@
 <?php
+}
 /**
  * --------------------------------------------------------------------------------------------------------------------
  * <copyright company="Aspose" file="AssembleDocumentRequest.php">
- *   Copyright (c) 2020 GroupDocs.Assembly for Cloud
+ *   Copyright (c) 2021 GroupDocs.Assembly for Cloud
  * </copyright>
  * <summary>
  *   Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -34,23 +35,23 @@ namespace GroupDocs\Assembly\Model\Requests;
 class AssembleDocumentRequest
 {
     /*
-     * Assemble Options. It should be JSON with TemplateName, SaveFormat, ReportData and etc.
+     * Assemble Options. It should be JSON or XML with TemplateFileInfo, SaveFormat, ReportData and etc.
      */
     public $assemble_options;
-
-
+    
+	
     /*
      * Initializes a new instance of the AssembleDocumentRequest class.
      *  
-     * @param \GroupDocs\Assembly\Model\AssembleOptions $assemble_options Assemble Options. It should be JSON with TemplateName, SaveFormat, ReportData and etc.
+     * @param \GroupDocs\Assembly\Model\AssembleOptions $assemble_options Assemble Options. It should be JSON or XML with TemplateFileInfo, SaveFormat, ReportData and etc.
      */
-    public function __construct($assemble_options)
+    public function __construct($assemble_options)             
     {
         $this->assemble_options = $assemble_options;
     }
 
     /*
-     * Assemble Options. It should be JSON with TemplateName, SaveFormat, ReportData and etc.
+     * Assemble Options. It should be JSON or XML with TemplateFileInfo, SaveFormat, ReportData and etc.
      */
     public function get_assemble_options()
     {
@@ -58,11 +59,10 @@ class AssembleDocumentRequest
     }
 
     /*
-     * Assemble Options. It should be JSON with TemplateName, SaveFormat, ReportData and etc.
+     * Assemble Options. It should be JSON or XML with TemplateFileInfo, SaveFormat, ReportData and etc.
      */
     public function set_assemble_options($value)
     {
         $this->assemble_options = $value;
         return $this;
     }
-}

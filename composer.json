@@ -1,11 +1,15 @@
 {
-    "description": 	"This repository contains GroupDocs Assembly Cloud SDK for PHP source code. This SDK allows you to work with GroupDocs.Assembly Cloud REST APIs in your .NET applications quickly and easily, with zero initial cost.",
-    "name": 		"groupdocs-cloud/groupdocs-assembly-cloud",
+    "description": 	"This repository contains GroupDocs Cloud SDK for PHP source code. This SDK allows you to work with GroupDocs.Assembly Cloud REST APIs in your .NET applications quickly and easily, with zero initial cost.",
+    "name": 		"groupdocs-cloud/php-sdk",
     "type": 		"library",
     "keywords" : 	["groupdocs", "php", "groupdocs cloud"],
 	"license": 		"MIT",
     "homepage": "https://github.com/groupdocs-assembly-cloud/groupdocs-assembly-cloud",
     "authors": [
+        {
+            "name": "EvgenyKuleshov",
+			"homepage": "https://github.com/groupdocs-assembly-cloud"
+        },
         {
             "name": "YaroslawEkimov",
 			"homepage": "https://github.com/groupdocs-assembly-cloud"
@@ -17,11 +21,11 @@
     ],
 	"config": {
         "platform": {
-            "php": "5.6.32"
+            "php": "7.0"
         }
     },
     "require": {
-        "php": ">=5.5",
+        "php": ">=7.0",
         "ext-curl": "*",
         "ext-json": "*",
         "ext-mbstring": "*",
@@ -30,14 +34,14 @@
     "require-dev": {
 	    "aspose/storage-sdk-php": "18.*",
         "squizlabs/php_codesniffer": "3.*",
-        "phpunit/phpunit": "^4.8",
+        "phpunit/phpunit": "6.0",
 		"behat/behat": "3.4.*",
 		"friendsofphp/php-cs-fixer": "2.10.*"
     },
 	"autoload": {
         "psr-0": {
-            "GroupDocs\\Assembly\\": "src/",
-            "GroupDocs\\Assembly\\Test": "tests/"
+            "GroupDocs\\Assembly\\": "Assembly/",
+            "BaseTest\\": "tests/"
         }
     }
 }

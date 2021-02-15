@@ -1,8 +1,9 @@
 <?php
+}
 /**
  * --------------------------------------------------------------------------------------------------------------------
  * <copyright company="Aspose" file="GetFilesListRequest.php">
- *   Copyright (c) 2020 GroupDocs.Assembly for Cloud
+ *   Copyright (c) 2021 GroupDocs.Assembly for Cloud
  * </copyright>
  * <summary>
  *   Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -37,20 +38,20 @@ class GetFilesListRequest
      * Folder path e.g. /Folder1
      */
     public $path;
-
+	
     /*
      * Storage name
      */
     public $storage_name;
-
-
+    
+	
     /*
      * Initializes a new instance of the GetFilesListRequest class.
      *  
      * @param string $path Folder path e.g. /Folder1
      * @param string $storage_name Storage name
      */
-    public function __construct($path, $storage_name = null)
+    public function __construct($path, $storage_name = null)             
     {
         $this->path = $path;
         $this->storage_name = $storage_name;
@@ -72,7 +73,7 @@ class GetFilesListRequest
         $this->path = $value;
         return $this;
     }
-
+	
     /*
      * Storage name
      */
@@ -89,4 +90,3 @@ class GetFilesListRequest
         $this->storage_name = $value;
         return $this;
     }
-}

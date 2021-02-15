@@ -2,7 +2,7 @@
 /**
  * --------------------------------------------------------------------------------------------------------------------
  * <copyright company="Aspose" file="Configuration.php">
- *   Copyright (c) 2020 GroupDocs.Assembly for Cloud
+ *   Copyright (c) 2021 GroupDocs.Assembly for Cloud
  * </copyright>
  * <summary>
  *   Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -143,7 +143,7 @@ class Configuration
      * @param string   $appKey app key
      * @param string   $baseUrl base url for requests
      */
-    public function __construct($appSid, $appKey, $baseUrl)
+    public function __construct(string $appSid, string $appKey, string $baseUrl)
     {
         $this->tempFolderPath = sys_get_temp_dir();
         date_default_timezone_set('UTC');
@@ -522,7 +522,7 @@ class Configuration
         $report  = 'PHP SDK (GroupDocs\Assembly) Debug Report:' . PHP_EOL;
         $report .= '    OS: ' . php_uname() . PHP_EOL;
         $report .= '    PHP Version: ' . PHP_VERSION . PHP_EOL;
-        $report .= '    OpenAPI Spec Version: 20.4' . PHP_EOL;
+        $report .= '    OpenAPI Spec Version: 21.1' . PHP_EOL;
         $report .= '    Temp Folder Path: ' . self::getDefaultConfiguration()->getTempFolderPath() . PHP_EOL;
 
         return $report;

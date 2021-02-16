@@ -64,7 +64,7 @@ class AssemblyApi
      * @param string   $appSid client app sid
      * @param string   $appKey app key
      */
-    public function __construct(string $appSid, string $appKey)
+    public function __construct($appSid, $appKey)
     {
         $this->client = new Client();
         $this->config = new Configuration($appSid, $appKey, $baseUrl);

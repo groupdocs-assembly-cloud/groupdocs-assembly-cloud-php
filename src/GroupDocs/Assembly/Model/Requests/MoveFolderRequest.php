@@ -138,3 +138,4 @@ class MoveFolderRequest
         $this->dest_storage_name = $value;
         return $this;
     }
+}

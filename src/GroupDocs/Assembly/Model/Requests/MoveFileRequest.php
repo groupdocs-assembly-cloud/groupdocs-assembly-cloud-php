@@ -1,5 +1,4 @@
 <?php
-}
 /**
  * --------------------------------------------------------------------------------------------------------------------
  * <copyright company="Aspose" file="MoveFileRequest.php">
@@ -162,3 +161,4 @@ class MoveFileRequest
         $this->version_id = $value;
         return $this;
     }
+}

@@ -1,5 +1,4 @@
 <?php
-}
 /**
  * --------------------------------------------------------------------------------------------------------------------
  * <copyright company="Aspose" file="CopyFolderRequest.php">
@@ -138,3 +137,4 @@ class CopyFolderRequest
         $this->dest_storage_name = $value;
         return $this;
     }
+}

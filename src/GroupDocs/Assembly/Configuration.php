@@ -135,23 +135,19 @@ class Configuration
      * Version of GroupDocs.Assembly Cloud API
      *
      */
-    protected $clientVersion = '20.5';
+    protected $clientVersion = '21.1';
 
     /*
      * Constructor
-	 * @param string   $appSid client app sid
-     * @param string   $appKey app key
-     * @param string   $baseUrl base url for requests
+	 * @param $appSid client app sid
+     * @param $appKey app key
      */
-    public function __construct(string $appSid, string $appKey, string $baseUrl)
+    public function __construct($appSid, $appKey)
     {
         $this->tempFolderPath = sys_get_temp_dir();
         date_default_timezone_set('UTC');
         $this->tempFolderPath = sys_get_temp_dir();
         date_default_timezone_set('UTC');
-        if (isset($baseUrl) && trim($baseUrl) != '') {
-            $this->setHost($baseUrl);
-        }
         $this->setAppSid($appSid);
         $this->setAppKey($appKey);
     }

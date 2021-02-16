@@ -1,5 +1,4 @@
 <?php
-}
 /**
  * --------------------------------------------------------------------------------------------------------------------
  * <copyright company="Aspose" file="DeleteFileRequest.php">
@@ -114,3 +113,4 @@ class DeleteFileRequest
         $this->version_id = $value;
         return $this;
     }
+}

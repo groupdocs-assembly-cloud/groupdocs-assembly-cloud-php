@@ -1,5 +1,4 @@
 <?php
-}
 /**
  * --------------------------------------------------------------------------------------------------------------------
  * <copyright company="Aspose" file="GetSupportedFileFormatsRequest.php">
@@ -34,3 +33,4 @@ namespace GroupDocs\Assembly\Model\Requests;
  */
 class GetSupportedFileFormatsRequest
 {
+}

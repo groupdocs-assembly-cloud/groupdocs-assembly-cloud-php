@@ -1,5 +1,4 @@
 <?php
-}
 /**
  * --------------------------------------------------------------------------------------------------------------------
  * <copyright company="Aspose" file="AssembleDocumentRequest.php">
@@ -66,3 +65,4 @@ class AssembleDocumentRequest
         $this->assemble_options = $value;
         return $this;
     }
+}

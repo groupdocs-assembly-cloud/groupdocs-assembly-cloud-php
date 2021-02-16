@@ -1,5 +1,4 @@
 <?php
-}
 /**
  * --------------------------------------------------------------------------------------------------------------------
  * <copyright company="Aspose" file="DownloadFileRequest.php">
@@ -114,3 +113,4 @@ class DownloadFileRequest
         $this->version_id = $value;
         return $this;
     }
+}

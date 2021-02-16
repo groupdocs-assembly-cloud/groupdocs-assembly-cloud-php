@@ -1,5 +1,4 @@
 <?php
-}
 /**
  * --------------------------------------------------------------------------------------------------------------------
  * <copyright company="Aspose" file="GetFilesListRequest.php">
@@ -90,3 +89,4 @@ class GetFilesListRequest
         $this->storage_name = $value;
         return $this;
     }
+}

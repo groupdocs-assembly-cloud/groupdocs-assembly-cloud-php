@@ -63,9 +63,8 @@ class AssemblyApi
      * Initialize a new instance of WordsApi
      * @param string   $appSid client app sid
      * @param string   $appKey app key
-     * @param string   $baseUrl base url for requests
      */
-    public function __construct(string $appSid, string $appKey, string $baseUrl)
+    public function __construct(string $appSid, string $appKey)
     {
         $this->client = new Client();
         $this->config = new Configuration($appSid, $appKey, $baseUrl);
@@ -3362,4 +3361,4 @@ class AssemblyApi
         $result = json_decode($response->getBody()->getContents(), true);
         $this->config->setAccessToken($result["access_token"]);
     }
-  
+}

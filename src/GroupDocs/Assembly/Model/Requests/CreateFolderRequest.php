@@ -1,5 +1,4 @@
 <?php
-}
 /**
  * --------------------------------------------------------------------------------------------------------------------
  * <copyright company="Aspose" file="CreateFolderRequest.php">
@@ -90,3 +89,4 @@ class CreateFolderRequest
         $this->storage_name = $value;
         return $this;
     }
+}

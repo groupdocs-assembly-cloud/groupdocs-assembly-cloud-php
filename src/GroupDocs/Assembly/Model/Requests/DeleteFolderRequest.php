@@ -1,5 +1,4 @@
 <?php
-}
 /**
  * --------------------------------------------------------------------------------------------------------------------
  * <copyright company="Aspose" file="DeleteFolderRequest.php">
@@ -114,3 +113,4 @@ class DeleteFolderRequest
         $this->recursive = $value;
         return $this;
     }
+}

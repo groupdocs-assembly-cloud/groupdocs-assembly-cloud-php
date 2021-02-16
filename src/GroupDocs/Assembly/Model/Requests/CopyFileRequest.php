@@ -1,5 +1,4 @@
 <?php
-}
 /**
  * --------------------------------------------------------------------------------------------------------------------
  * <copyright company="Aspose" file="CopyFileRequest.php">
@@ -162,3 +161,4 @@ class CopyFileRequest
         $this->version_id = $value;
         return $this;
     }
+}

@@ -69,7 +69,6 @@ class AssemblyApi
         $this->client = new Client();
         $this->config = new Configuration($appSid, $appKey, $baseUrl);
         $this->headerSelector = new HeaderSelector();
-        $this->_requestToken();
     }
 
     /*
@@ -119,6 +118,7 @@ class AssemblyApi
     {
         $returnType = '\SplFileObject';
         $request = $this->assembleDocumentRequest($request);
+        $this->_requestToken();
 
         try {
             $options = $this->_createHttpClientOption();
@@ -204,6 +204,7 @@ class AssemblyApi
     {
         $returnType = '\SplFileObject';
         $request = $this->assembleDocumentRequest($request);
+        $this->_requestToken();
 
         return $this->client
             ->sendAsync($request, $this->_createHttpClientOption())
@@ -389,6 +390,7 @@ class AssemblyApi
     {
         $returnType = '';
         $request = $this->copyFileRequest($request);
+        $this->_requestToken();
 
         try {
             $options = $this->_createHttpClientOption();
@@ -452,6 +454,7 @@ class AssemblyApi
     {
         $returnType = '';
         $request = $this->copyFileRequest($request);
+        $this->_requestToken();
 
         return $this->client
             ->sendAsync($request, $this->_createHttpClientOption())
@@ -661,6 +664,7 @@ class AssemblyApi
     {
         $returnType = '';
         $request = $this->copyFolderRequest($request);
+        $this->_requestToken();
 
         try {
             $options = $this->_createHttpClientOption();
@@ -724,6 +728,7 @@ class AssemblyApi
     {
         $returnType = '';
         $request = $this->copyFolderRequest($request);
+        $this->_requestToken();
 
         return $this->client
             ->sendAsync($request, $this->_createHttpClientOption())
@@ -923,6 +928,7 @@ class AssemblyApi
     {
         $returnType = '';
         $request = $this->createFolderRequest($request);
+        $this->_requestToken();
 
         try {
             $options = $this->_createHttpClientOption();
@@ -986,6 +992,7 @@ class AssemblyApi
     {
         $returnType = '';
         $request = $this->createFolderRequest($request);
+        $this->_requestToken();
 
         return $this->client
             ->sendAsync($request, $this->_createHttpClientOption())
@@ -1161,6 +1168,7 @@ class AssemblyApi
     {
         $returnType = '';
         $request = $this->deleteFileRequest($request);
+        $this->_requestToken();
 
         try {
             $options = $this->_createHttpClientOption();
@@ -1224,6 +1232,7 @@ class AssemblyApi
     {
         $returnType = '';
         $request = $this->deleteFileRequest($request);
+        $this->_requestToken();
 
         return $this->client
             ->sendAsync($request, $this->_createHttpClientOption())
@@ -1409,6 +1418,7 @@ class AssemblyApi
     {
         $returnType = '';
         $request = $this->deleteFolderRequest($request);
+        $this->_requestToken();
 
         try {
             $options = $this->_createHttpClientOption();
@@ -1472,6 +1482,7 @@ class AssemblyApi
     {
         $returnType = '';
         $request = $this->deleteFolderRequest($request);
+        $this->_requestToken();
 
         return $this->client
             ->sendAsync($request, $this->_createHttpClientOption())
@@ -1659,6 +1670,7 @@ class AssemblyApi
     {
         $returnType = '\SplFileObject';
         $request = $this->downloadFileRequest($request);
+        $this->_requestToken();
 
         try {
             $options = $this->_createHttpClientOption();
@@ -1744,6 +1756,7 @@ class AssemblyApi
     {
         $returnType = '\SplFileObject';
         $request = $this->downloadFileRequest($request);
+        $this->_requestToken();
 
         return $this->client
             ->sendAsync($request, $this->_createHttpClientOption())
@@ -1949,6 +1962,7 @@ class AssemblyApi
     {
         $returnType = '\GroupDocs\Assembly\Model\FilesList';
         $request = $this->getFilesListRequest($request);
+        $this->_requestToken();
 
         try {
             $options = $this->_createHttpClientOption();
@@ -2034,6 +2048,7 @@ class AssemblyApi
     {
         $returnType = '\GroupDocs\Assembly\Model\FilesList';
         $request = $this->getFilesListRequest($request);
+        $this->_requestToken();
 
         return $this->client
             ->sendAsync($request, $this->_createHttpClientOption())
@@ -2229,6 +2244,7 @@ class AssemblyApi
     {
         $returnType = '\GroupDocs\Assembly\Model\FileFormatsResponse';
         $request = $this->getSupportedFileFormatsRequest($request);
+        $this->_requestToken();
 
         try {
             $options = $this->_createHttpClientOption();
@@ -2314,6 +2330,7 @@ class AssemblyApi
     {
         $returnType = '\GroupDocs\Assembly\Model\FileFormatsResponse';
         $request = $this->getSupportedFileFormatsRequest($request);
+        $this->_requestToken();
 
         return $this->client
             ->sendAsync($request, $this->_createHttpClientOption())
@@ -2488,6 +2505,7 @@ class AssemblyApi
     {
         $returnType = '';
         $request = $this->moveFileRequest($request);
+        $this->_requestToken();
 
         try {
             $options = $this->_createHttpClientOption();
@@ -2551,6 +2569,7 @@ class AssemblyApi
     {
         $returnType = '';
         $request = $this->moveFileRequest($request);
+        $this->_requestToken();
 
         return $this->client
             ->sendAsync($request, $this->_createHttpClientOption())
@@ -2760,6 +2779,7 @@ class AssemblyApi
     {
         $returnType = '';
         $request = $this->moveFolderRequest($request);
+        $this->_requestToken();
 
         try {
             $options = $this->_createHttpClientOption();
@@ -2823,6 +2843,7 @@ class AssemblyApi
     {
         $returnType = '';
         $request = $this->moveFolderRequest($request);
+        $this->_requestToken();
 
         return $this->client
             ->sendAsync($request, $this->_createHttpClientOption())
@@ -3024,6 +3045,7 @@ class AssemblyApi
     {
         $returnType = '\GroupDocs\Assembly\Model\FilesUploadResult';
         $request = $this->uploadFileRequest($request);
+        $this->_requestToken();
 
         try {
             $options = $this->_createHttpClientOption();
@@ -3109,6 +3131,7 @@ class AssemblyApi
     {
         $returnType = '\GroupDocs\Assembly\Model\FilesUploadResult';
         $request = $this->uploadFileRequest($request);
+        $this->_requestToken();
 
         return $this->client
             ->sendAsync($request, $this->_createHttpClientOption())

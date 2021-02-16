@@ -1,14 +1,17 @@
 # GroupDocs.Assembly Cloud SDK for PHP
 This repository contains GroupDocs.Assembly Cloud SDK for PHP source code. This SDK allows you to work with GroupDocs.Assembly Cloud REST APIs in your PHP applications quickly and easily, with zero initial cost.
 
-See [API Reference](https://apireference.groupdocs.cloud/) for full API specification.
+See [API Reference](https://apireference.groupdocs.cloud/assembly) for full API specification.
+
+# Key Features
+* API to Define Templates, Fetch Data Source, Insert Data in Template & Generate on the fly Reports.
 
 ## How to use the SDK?
-The complete source code is available in this repository folder.  You can either directly use it in your project via source code or get [Packagist distribution](https://packagist.org/packages/groupdocscloud/groupdocs-assembly-cloud) (recommended). For more details, please visit our [documentation website](https://docs.groupdocs.cloud/display/assemblycloud/Available+SDKs).
+The complete source code is available in this repository folder.  You can either directly use it in your project via source code or get [Packagist distribution](https://packagist.org/packages/groupdocscloud/groupdocs-assembly-cloud) (recommended).
 
 ### Prerequisites
 
-To use GroupDocs.Assembly for Cloud PHP SDK you need to register an account with [GroupDocs Cloud](https://www.groupdocs.cloud/) and lookup/create App Key and SID at [Cloud Dashboard](https://dashboard.groupdocs.cloud/#/apps). There is free quota available. For more details, see [GroupDocs Cloud Pricing](https://purchase.groupdocs.cloud/pricing).
+To use GroupDocs.Assembly for Cloud PHP SDK you need to register an account with [GroupDocs Cloud](https://www.groupdocs.cloud/) and lookup/create App Key and SID at [Cloud Dashboard](https://dashboard.groupdocs.cloud/applications). There is free quota available. For more details, see [GroupDocs Cloud Pricing](https://purchase.groupdocs.cloud/pricing).
 
 ### Installation
 
@@ -42,4 +45,4 @@ Please put your credentials into [Configuration](Settings/servercreds.json).
 - referenced packages (see [here](composer.json) for more details)
 
 ## Contact Us
-Your feedback is very important to us. Please feel free to contact us using our [Support Forums](https://forum.groupdocs.cloud/c/assembly).
+[Product Page](https://products.groupdocs.cloud/assembly/php) | [Documentation](https://docs.groupdocs.cloud/display/assemblycloud/Home) | [API Reference](https://apireference.groupdocs.cloud/assembly/) | [Code Samples](https://github.com/groupdocs-assembly-cloud/groupdocs-assembly-cloud-php) | [Blog](https://blog.groupdocs.cloud/category/assembly/) | [Free Support](https://forum.groupdocs.cloud/c/assembly) | [Free Trial](https://dashboard.groupdocs.cloud/applications)

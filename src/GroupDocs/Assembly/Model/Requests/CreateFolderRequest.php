@@ -2,7 +2,7 @@
 /**
  * --------------------------------------------------------------------------------------------------------------------
  * <copyright company="Aspose" file="CreateFolderRequest.php">
- *   Copyright (c) 2020 GroupDocs.Assembly for Cloud
+ *   Copyright (c) 2021 GroupDocs.Assembly for Cloud
  * </copyright>
  * <summary>
  *   Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -37,20 +37,20 @@ class CreateFolderRequest
      * Target folder's path e.g. Folder1/Folder2/. The folders will be created recursively
      */
     public $path;
-
+	
     /*
      * Storage name
      */
     public $storage_name;
-
-
+    
+	
     /*
      * Initializes a new instance of the CreateFolderRequest class.
      *  
      * @param string $path Target folder's path e.g. Folder1/Folder2/. The folders will be created recursively
      * @param string $storage_name Storage name
      */
-    public function __construct($path, $storage_name = null)
+    public function __construct($path, $storage_name = null)             
     {
         $this->path = $path;
         $this->storage_name = $storage_name;
@@ -72,7 +72,7 @@ class CreateFolderRequest
         $this->path = $value;
         return $this;
     }
-
+	
     /*
      * Storage name
      */

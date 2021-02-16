@@ -1,8 +1,9 @@
 <?php
+}
 /**
  * --------------------------------------------------------------------------------------------------------------------
  * <copyright company="Aspose" file="MoveFolderRequest.php">
- *   Copyright (c) 2020 GroupDocs.Assembly for Cloud
+ *   Copyright (c) 2021 GroupDocs.Assembly for Cloud
  * </copyright>
  * <summary>
  *   Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -37,23 +38,23 @@ class MoveFolderRequest
      * Destination folder path to move to e.g '/dst'
      */
     public $dest_path;
-
+	
     /*
      * Source folder path e.g. /Folder1
      */
     public $src_path;
-
+	
     /*
      * Source storage name
      */
     public $src_storage_name;
-
+	
     /*
      * Destination storage name
      */
     public $dest_storage_name;
-
-
+    
+	
     /*
      * Initializes a new instance of the MoveFolderRequest class.
      *  
@@ -62,7 +63,7 @@ class MoveFolderRequest
      * @param string $src_storage_name Source storage name
      * @param string $dest_storage_name Destination storage name
      */
-    public function __construct($dest_path, $src_path, $src_storage_name = null, $dest_storage_name = null)
+    public function __construct($dest_path, $src_path, $src_storage_name = null, $dest_storage_name = null)             
     {
         $this->dest_path = $dest_path;
         $this->src_path = $src_path;
@@ -86,7 +87,7 @@ class MoveFolderRequest
         $this->dest_path = $value;
         return $this;
     }
-
+	
     /*
      * Source folder path e.g. /Folder1
      */
@@ -103,7 +104,7 @@ class MoveFolderRequest
         $this->src_path = $value;
         return $this;
     }
-
+	
     /*
      * Source storage name
      */
@@ -120,7 +121,7 @@ class MoveFolderRequest
         $this->src_storage_name = $value;
         return $this;
     }
-
+	
     /*
      * Destination storage name
      */

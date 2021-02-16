@@ -2,7 +2,7 @@
 /**
  * --------------------------------------------------------------------------------------------------------------------
  * <copyright company="Aspose" file="DeleteFolderRequest.php">
- *   Copyright (c) 2020 GroupDocs.Assembly for Cloud
+ *   Copyright (c) 2021 GroupDocs.Assembly for Cloud
  * </copyright>
  * <summary>
  *   Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -37,18 +37,18 @@ class DeleteFolderRequest
      * Folder path e.g. /Folder1s
      */
     public $path;
-
+	
     /*
      * Storage name
      */
     public $storage_name;
-
+	
     /*
      * Enable to delete folders, subfolders and files
      */
     public $recursive;
-
-
+    
+	
     /*
      * Initializes a new instance of the DeleteFolderRequest class.
      *  
@@ -56,7 +56,7 @@ class DeleteFolderRequest
      * @param string $storage_name Storage name
      * @param bool $recursive Enable to delete folders, subfolders and files
      */
-    public function __construct($path, $storage_name = null, $recursive = null)
+    public function __construct($path, $storage_name = null, $recursive = null)             
     {
         $this->path = $path;
         $this->storage_name = $storage_name;
@@ -79,7 +79,7 @@ class DeleteFolderRequest
         $this->path = $value;
         return $this;
     }
-
+	
     /*
      * Storage name
      */
@@ -96,7 +96,7 @@ class DeleteFolderRequest
         $this->storage_name = $value;
         return $this;
     }
-
+	
     /*
      * Enable to delete folders, subfolders and files
      */

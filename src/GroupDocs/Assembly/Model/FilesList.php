@@ -1,13 +1,8 @@
 <?php
 /**
  * --------------------------------------------------------------------------------------------------------------------
-<<<<<<< HEAD:src/GroupDocs/Assembly/Model/FormatCollection.php
- * <copyright company="GroupDocs" file="FormatCollection.php">
- *   Copyright (c) 2019 GroupDocs.Assembly for Cloud
-=======
  * <copyright company="Aspose" file="FilesList.php">
- *   Copyright (c) 2020 GroupDocs.Assembly for Cloud
->>>>>>> branch:src/GroupDocs/Assembly/Model/FilesList.php
+ *   Copyright (c) 2021 GroupDocs.Assembly for Cloud
  * </copyright>
  * <summary>
  *   Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -31,11 +26,7 @@
  * --------------------------------------------------------------------------------------------------------------------
  */
 /*
-<<<<<<< HEAD:src/GroupDocs/Assembly/Model/FormatCollection.php
- * FormatCollection
-=======
  * FilesList
->>>>>>> branch:src/GroupDocs/Assembly/Model/FilesList.php
  */
 
 namespace GroupDocs\Assembly\Model;
@@ -44,19 +35,11 @@ use \ArrayAccess;
 use \GroupDocs\Assembly\ObjectSerializer;
 
 /*
-<<<<<<< HEAD:src/GroupDocs/Assembly/Model/FormatCollection.php
- * FormatCollection
- *
- * @description Describes object which contains list of supported file formats.
- */
-class FormatCollection implements ArrayAccess
-=======
  * FilesList
  *
  * @description Files list
  */
 class FilesList implements ArrayAccess
->>>>>>> branch:src/GroupDocs/Assembly/Model/FilesList.php
 {
     const DISCRIMINATOR = null;
 
@@ -65,11 +48,7 @@ class FilesList implements ArrayAccess
      *
      * @var string
      */
-<<<<<<< HEAD:src/GroupDocs/Assembly/Model/FormatCollection.php
-    protected static $swaggerModelName = "FormatCollection";
-=======
     protected static $swaggerModelName = "FilesList";
->>>>>>> branch:src/GroupDocs/Assembly/Model/FilesList.php
 
     /*
      * Array of property to type mappings. Used for (de)serialization
@@ -77,11 +56,7 @@ class FilesList implements ArrayAccess
      * @var string[]
      */
     protected static $swaggerTypes = [
-<<<<<<< HEAD:src/GroupDocs/Assembly/Model/FormatCollection.php
-        'formats' => '\GroupDocs\Assembly\Model\Format[]'
-=======
         'value' => '\GroupDocs\Assembly\Model\StorageFile[]'
->>>>>>> branch:src/GroupDocs/Assembly/Model/FilesList.php
     ];
 
     /*
@@ -90,11 +65,7 @@ class FilesList implements ArrayAccess
      * @var string[]
      */
     protected static $swaggerFormats = [
-<<<<<<< HEAD:src/GroupDocs/Assembly/Model/FormatCollection.php
-        'formats' => null
-=======
         'value' => null
->>>>>>> branch:src/GroupDocs/Assembly/Model/FilesList.php
     ];
 
     /*
@@ -124,11 +95,7 @@ class FilesList implements ArrayAccess
      * @var string[]
      */
     protected static $attributeMap = [
-<<<<<<< HEAD:src/GroupDocs/Assembly/Model/FormatCollection.php
-        'formats' => 'Formats'
-=======
         'value' => 'Value'
->>>>>>> branch:src/GroupDocs/Assembly/Model/FilesList.php
     ];
 
     /*
@@ -137,11 +104,7 @@ class FilesList implements ArrayAccess
      * @var string[]
      */
     protected static $setters = [
-<<<<<<< HEAD:src/GroupDocs/Assembly/Model/FormatCollection.php
-        'formats' => 'setFormats'
-=======
         'value' => 'setValue'
->>>>>>> branch:src/GroupDocs/Assembly/Model/FilesList.php
     ];
 
     /*
@@ -150,11 +113,7 @@ class FilesList implements ArrayAccess
      * @var string[]
      */
     protected static $getters = [
-<<<<<<< HEAD:src/GroupDocs/Assembly/Model/FormatCollection.php
-        'formats' => 'getFormats'
-=======
         'value' => 'getValue'
->>>>>>> branch:src/GroupDocs/Assembly/Model/FilesList.php
     ];
 
     /*
@@ -217,11 +176,7 @@ class FilesList implements ArrayAccess
      */
     public function __construct(array $data = null)
     {
-<<<<<<< HEAD:src/GroupDocs/Assembly/Model/FormatCollection.php
-        $this->container['formats'] = isset($data['formats']) ? $data['formats'] : null;
-=======
         $this->container['value'] = isset($data['value']) ? $data['value'] : null;
->>>>>>> branch:src/GroupDocs/Assembly/Model/FilesList.php
     }
 
     /*
@@ -250,27 +205,6 @@ class FilesList implements ArrayAccess
 
 
     /*
-<<<<<<< HEAD:src/GroupDocs/Assembly/Model/FormatCollection.php
-     * Gets formats
-     *
-     * @return \GroupDocs\Assembly\Model\Format[]
-     */
-    public function getFormats()
-    {
-        return $this->container['formats'];
-    }
-
-    /*
-     * Sets formats
-     *
-     * @param \GroupDocs\Assembly\Model\Format[] $formats Supported file formats.
-     *
-     * @return $this
-     */
-    public function setFormats($formats)
-    {
-        $this->container['formats'] = $formats;
-=======
      * Gets value
      *
      * @return \GroupDocs\Assembly\Model\StorageFile[]
@@ -290,7 +224,6 @@ class FilesList implements ArrayAccess
     public function setValue($value)
     {
         $this->container['value'] = $value;
->>>>>>> branch:src/GroupDocs/Assembly/Model/FilesList.php
 
         return $this;
     }
